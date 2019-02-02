@@ -85,12 +85,10 @@ $show_complete_tasks = rand(0, 1);
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
                         <?php foreach ($project_tasks as $task): ?>
-                            <?php if (isset($task)): ?>
-                                <li class="main-navigation__list-item">
-                                    <a class="main-navigation__list-item-link" href="#"><?=strip_tags($task);?></a>
-                                 <span class="main-navigation__list-item-count">0</span>
-                                </li>
-                            <?php endif; ?>
+                            <li class="main-navigation__list-item">
+                                <a class="main-navigation__list-item-link" href="#"><?=strip_tags($task);?></a>
+                                <span class="main-navigation__list-item-count">0</span>
+                            </li>
                         <?php endforeach; ?>
                     </ul>
                 </nav>
