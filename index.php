@@ -2,40 +2,40 @@
 $project_tasks = ["Входящие","Учеба","Работа","Домашние дела","Авто"];
 $tasks_with_information = [
     [
-        "Задача" => "Собеседование в IT компании",
-        "Дата выполнения" => "01.12.2019",
-        "Категория" => "Работа",
-        "Выполнен" => "Нет"
+        "Task" => "Собеседование в IT компании",
+        "Execution date" => "01.12.2019",
+        "Category" => "Работа",
+        "Done" => false
     ],
-      [
-        "Задача" => "Выполнить тестовое задание",
-        "Дата выполнения" => "25.12.2019",
-        "Категория" => "Работа",
-        "Выполнен" => "Нет"
+    [
+        "Task" => "Выполнить тестовое задание",
+        "Execution date" => "25.12.2019",
+        "Category" => "Работа",
+        "Done" => false
     ],
-      [
-        "Задача" => "Сделать задание первого раздела",
-        "Дата выполнения" => "21.12.2019",
-        "Категория" => "Учеба",
-        "Выполнен" => "Да"
+    [
+        "Task" => "Сделать задание первого раздела",
+        "Execution date" => "21.12.2019",
+        "Category" => "Учеба",
+        "Done" => true
     ],
-      [
-        "Задача" => "Встреча с другом",
-        "Дата выполнения" => "22.12.2019",
-        "Категория" => "Входящие",
-        "Выполнен" => "Нет"
+    [
+        "Task" => "Встреча с другом",
+        "Execution date" => "22.12.2019",
+        "Category" => "Входящие",
+        "Done" => false
     ],
-      [
-        "Задача" => "Купить корм для кота",
-        "Дата выполнения" => "Нет",
-        "Категория" => "Домашние дела",
-        "Выполнен" => "Нет"
+    [
+        "Task" => "Купить корм для кота",
+        "Execution date" => "Нет",
+        "Category" => "Домашние дела",
+        "Done" => false
     ],
-      [
-        "Задача" => "Заказать пиццу",
-        "Дата выполнения" => "Нет",
-        "Категория" => "Домашние дела",
-        "Выполнен" => "Нет"
+    [
+        "Task" => "Заказать пиццу",
+        "Execution date" => "Нет",
+        "Category" => "Домашние дела",
+        "Done" => false
     ],
 ];
 $show_complete_tasks = rand(0, 1);
@@ -84,12 +84,14 @@ $show_complete_tasks = rand(0, 1);
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
-                        <?php for ($i=0; $i<count($project_tasks); $i++): ?>
-                            <li class="main-navigation__list-item">
-                                <a class="main-navigation__list-item-link" href="#"><?=$project_tasks[$i];?></a>
-                             <span class="main-navigation__list-item-count">0</span>
-                            </li>
-                        <?php endfor; ?>
+                        <?php foreach ($project_tasks as $task): ?>
+                            <?php if (isset($task)): ?>
+                                <li class="main-navigation__list-item">
+                                    <a class="main-navigation__list-item-link" href="#"><?=strip_tags($task);?></a>
+                                 <span class="main-navigation__list-item-count">0</span>
+                                </li>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
                     </ul>
                 </nav>
 
@@ -121,13 +123,13 @@ $show_complete_tasks = rand(0, 1);
                 </div>
 
                 <table class="tasks">
-                    <?php foreach($tasks_with_information as $key => $task): ?>
-                        <?php if ($task["Выполнен"] === "Нет"): ?>
+                    <?php foreach($tasks_with_information as $task): ?>
+                        <?php if ($task["Done"] === false && isset($task["Done"])): ?>
                             <tr class="tasks__item task">
                                 <td class="task__select">
                                     <label class="checkbox task__checkbox">
                                         <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
-                                        <span class="checkbox__text"><?=$task["Задача"];?></span>
+                                        <span class="checkbox__text"><?=strip_tags($task["Task"]);?></span>
                                     </label>
                                 </td>
 
@@ -135,24 +137,22 @@ $show_complete_tasks = rand(0, 1);
                                     <a class="download-link" href="#">Home.psd</a>
                                 </td>
 
-                                <td class="task__date"><?=$task["Дата выполнения"];?></td>
+                                <td class="task__date"><?=strip_tags($task["Execution date"]);?></td>
                             </tr>
                         <?php endif; ?>
-                        <?php if ($show_complete_tasks === 1): ?>
-                            <?php if ($task["Выполнен"] === "Да"): ?>
+                        <?php if ($show_complete_tasks === 1 && isset($task["Done"]) && $task["Done"] === true): ?>
                                 <tr class="tasks__item task task--completed">
                                     <td class="task__select">
                                         <label class="checkbox task__checkbox">
                                             <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                                            <span class="checkbox__text"><?=$task["Задача"];?></span>
+                                            <span class="checkbox__text"><?=strip_tags($task["Task"]);?></span>
                                         </label>
                                     </td>
-                                    <td class="task__date"><?=$task["Дата выполнения"];?></td>
+                                    <td class="task__date"><?=strip_tags($task["Execution date"]);?></td>
 
                                     <td class="task__controls">
                                     </td>
                                 </tr>
-                            <?php endif; ?>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </table>
