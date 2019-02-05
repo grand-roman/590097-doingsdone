@@ -1,5 +1,5 @@
 <?php
-function Counting_Task ($task_with_information, $project_task ) {
+
 /**
  * Подсчитывает число задач для заданного проекта
  *
@@ -8,6 +8,7 @@ function Counting_Task ($task_with_information, $project_task ) {
  *
  * @return int
  */
+function Counting_Task ($task_with_information, $project_task ) {
 
     $count = 0;
     foreach ($task_with_information as $task) {
