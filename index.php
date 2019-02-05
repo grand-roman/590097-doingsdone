@@ -1,4 +1,24 @@
 <?php
+
+/**
+ * Подсчитывает число задач для заданного проекта
+ *
+ * @param array $task_with_information
+ * @param string $project_task
+ *
+ * @return int
+ */
+function Counting_Task ($task_with_information, $project_task ) {
+
+    $count = 0;
+    foreach ($task_with_information as $task) {
+        if (isset($task["Category"]) && $project_task === $task["Category"]) {
+            $count++;
+        }
+    }
+    return $count;
+}
+
 $project_tasks = ["Входящие","Учеба","Работа","Домашние дела","Авто"];
 $tasks_with_information = [
     [
@@ -40,6 +60,7 @@ $tasks_with_information = [
 ];
 $show_complete_tasks = rand(0, 1);
 ?>
+
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -87,7 +108,7 @@ $show_complete_tasks = rand(0, 1);
                         <?php foreach ($project_tasks as $task): ?>
                             <li class="main-navigation__list-item">
                                 <a class="main-navigation__list-item-link" href="#"><?=strip_tags($task);?></a>
-                                <span class="main-navigation__list-item-count">0</span>
+                                <span class="main-navigation__list-item-count"><?=Counting_Task($tasks_with_information, $task);?></span>
                             </li>
                         <?php endforeach; ?>
                     </ul>
@@ -122,7 +143,7 @@ $show_complete_tasks = rand(0, 1);
 
                 <table class="tasks">
                     <?php foreach($tasks_with_information as $task): ?>
-                        <?php if ($task["Done"] === false && isset($task["Done"])): ?>
+                        <?php if (isset($task["Done"]) && $task["Done"] === false ): ?>
                             <tr class="tasks__item task">
                                 <td class="task__select">
                                     <label class="checkbox task__checkbox">
