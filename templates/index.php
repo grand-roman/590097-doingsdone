@@ -25,7 +25,11 @@
                     <?php foreach($tasks_with_information as $task): ?>
                         <?php if (isset($task["Done"]) && $task["Done"] === false ): ?>
                             <tr 
-                                <?php if(isset($task["Done"]) && ((strtotime($task["Execution date"])-time())<=86400)): ?> class="tasks__item task task--important"
+                                <?php 
+                                if
+                                (isset($task["Done"]) && 
+                                (((strtotime($task["Execution date"])-time())<=86400) || (time()>=strtotime($task["Execution date"]))) ): 
+                                    ?> class="tasks__item task task--important"
                                 <?    else: ?> class="tasks__item task"
                                 <?php endif; ?>>
                                 <td class="task__select">
