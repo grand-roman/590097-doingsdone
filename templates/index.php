@@ -26,10 +26,7 @@
                         <?php if (isset($task["Done"]) && $task["Done"] === false ): ?>
                             <tr 
                                 <?php 
-                                if
-                                (isset($task["Done"]) && 
-                                (((strtotime($task["Execution date"])-time())<=86400) || (time()>=strtotime($task["Execution date"]))) ): 
-                                    ?> class="tasks__item task task--important"
+                                if (Task_Important($task) === true): ?> class="tasks__item task task--important"
                                 <?    else: ?> class="tasks__item task"
                                 <?php endif; ?>>
                                 <td class="task__select">

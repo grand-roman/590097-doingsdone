@@ -37,4 +37,19 @@ function Counting_Task ($task_with_information, $project_task ) {
     }
     return $count;
 }
+
+/**
+ * Возвращает true если до даты выполнения осталось меньше 24 часов или задача остлось не решенной 
+ *
+ * @param array $task_with_information
+ *
+ * @return boolean
+ */
+function Task_Important ($task){
+
+    if (isset($task["Done"]) && (((strtotime($task["Execution date"])-time())<=86400) || (time()>=strtotime($task["Execution date"]))))
+    {
+        return true;
+    }
+}
 ?>
