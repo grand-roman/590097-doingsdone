@@ -28,13 +28,13 @@ $tasks_with_information = [
     ],
     [
         "Task" => "Купить корм для кота",
-        "Execution date" => "Нет",
+        "Execution date" => "09.02.2019",
         "Category" => "Домашние дела",
         "Done" => false
     ],
     [
         "Task" => "Заказать пиццу",
-        "Execution date" => "Нет",
+        "Execution date" => "10.02.2019",
         "Category" => "Домашние дела",
         "Done" => false
     ],
