@@ -25,10 +25,7 @@
                     <?php foreach($tasks_with_information as $task): ?>
                         <?php if (isset($task["Done"]) && $task["Done"] === false ): ?>
                             <tr 
-                                <?php 
-                                if (Task_Important($task) === true): ?> class="tasks__item task task--important"
-                                <?    else: ?> class="tasks__item task"
-                                <?php endif; ?>>
+                                <tr class="tasks__item task<?= Task_Important($task) ? " task--important" : '';?>">
                                 <td class="task__select">
                                     <label class="checkbox task__checkbox">
                                         <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">

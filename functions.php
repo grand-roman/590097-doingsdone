@@ -41,7 +41,7 @@ function Counting_Task ($task_with_information, $project_task ) {
 /**
  * Возвращает true если до даты выполнения осталось меньше 24 часов или задача остлось не решенной 
  *
- * @param array $task_with_information
+ * @param array $task
  *
  * @return boolean
  */
