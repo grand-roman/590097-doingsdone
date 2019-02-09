@@ -24,7 +24,6 @@ CREATE TABLE Task (
 	name_task CHAR(128) NOT NULL,
 	creation_at DATETIME DEFAULT NOW(),
 	deadline DATETIME,
-	status BOOLEAN DEFAULT FALSE,
 	done_at DATETIME,
 	file_task VARCHAR(128),
 	project_id INT NOT NULL,
