@@ -26,8 +26,11 @@ CREATE TABLE Task (
 	deadline DATETIME,
 	done_at DATETIME,
 	file_task VARCHAR(128),
-	project_id INT NOT NULL,
-	user_id INT NOT NULL
+	project_id INT,
+	user_id INT NOT NULL,
+	status BOOLEAN DEFAULT FALSE
 );
 
 CREATE UNIQUE INDEX email ON User(email);
+CREATE UNIQUE INDEX getProject ON Project(name_project,user_id);
+CREATE INDEX doneTask ON Task(user_idt,project_id);
