@@ -1,6 +1,6 @@
 
 CREATE DATABASE doingsdone
-  DEFAULT CHARACTER SET utf8;
+  DEFAULT CHARACTER SET utf8
   DEFAULT COLLATE utf8_general_ci;
 
 USE doingsdone;
@@ -10,7 +10,7 @@ CREATE TABLE User (
 	name_user VARCHAR(128) NOT NULL,
 	email VARCHAR(128) NOT NULL ,
 	password CHAR(64) NOT NULL,
-	reg_date DATETIME NOT NULL DEFAULT NOW(),
+	reg_date DATETIME NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE Project (
@@ -33,4 +33,4 @@ CREATE TABLE Task (
 
 CREATE UNIQUE INDEX email ON User(email);
 CREATE UNIQUE INDEX getProject ON Project(name_project,user_id);
-CREATE INDEX doneTask ON Task(user_idt,project_id);
+CREATE INDEX doneTask ON Task(user_id,project_id);
