@@ -32,5 +32,5 @@ CREATE TABLE Task (
 );
 
 CREATE UNIQUE INDEX email ON User(email);
-CREATE UNIQUE INDEX getProject ON Project(name_project,user_id);
+CREATE INDEX getProject ON Project(name_project,user_id);
 CREATE INDEX doneTask ON Task(user_id,project_id);

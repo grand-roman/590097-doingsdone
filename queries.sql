@@ -28,7 +28,7 @@ SELECT id, name_project
  WHERE user_id = 1;
 
 -- получить список из всех задач для одного проекта
-SELECT name_task, file_task, date_format(done_at, '%d.%m.%Y') AS done_at, deadline, status, project_id
+SELECT name_task, file_task, date_format(done_at, '%d.%m.%Y H:i:s') AS done_at, deadline, status, project_id
   FROM Task  where project_id = 1;
 
 -- пометить задачу как выполненную
