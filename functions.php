@@ -49,7 +49,7 @@ function Counting_Task ($task_with_information, $project_task ) {
  */
 function Task_Important ($task){
 
-    if (isset($task["status"]) && (((strtotime($task["done_at"])-time())<=86400) || (time()>=strtotime($task["done_at"]))))
+    if (isset($task["status"]) && (((strtotime($task["deadline"])-time())<=86400) || (time()>=strtotime($task["deadline"]))))
     {
         return true;
     }
