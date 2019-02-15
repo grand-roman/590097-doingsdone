@@ -33,7 +33,7 @@ function Counting_Task ($task_with_information, $project_task ) {
 
     $count = 0;
     foreach ($task_with_information as $task) {
-        if (isset($task["Category"]) && $project_task === $task["Category"]) {
+        if (isset($task["project_id"]) && $project_task === $task["project_id"]) {
             $count++;
         }
     }
@@ -49,7 +49,7 @@ function Counting_Task ($task_with_information, $project_task ) {
  */
 function Task_Important ($task){
 
-    if (isset($task["Done"]) && (((strtotime($task["Execution date"])-time())<=86400) || (time()>=strtotime($task["Execution date"]))))
+    if (isset($task["status"]) && (((strtotime($task["done_at"])-time())<=86400) || (time()>=strtotime($task["done_at"]))))
     {
         return true;
     }
@@ -64,7 +64,7 @@ function request ($link, $sql, $data = []) {
         
     }
     else {
-        $error = mysqli_error($connect);
+        $error = mysqli_error($link);
         print("Ошибка MySQL:" .$error);
         exit();
     }

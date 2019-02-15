@@ -23,7 +23,7 @@
 
                 <table class="tasks">
                     <?php foreach($tasks_with_information as $task): ?>
-                        <?php if (isset($task["status"]) && $task["status"] === false ): ?>
+                        <?php if (isset($task["status"]) && $task["status"] === 0 ): ?>
                             <tr 
                                 <tr class="tasks__item task<?= Task_Important($task) ? " task--important" : '';?>">
                                 <td class="task__select">
@@ -34,13 +34,13 @@
                                 </td>
 
                                 <td class="task__file">
-                                    <a class="download-link" href="#"><?php if (isset($task["file_task"])): ?> <?= strip_tags($task["file_task"]);  ?> <?php endif; ?></a>
+                                    <a class="download-link" href="#"><?php if (isset($task["file_task"])): ?> <?= strip_tags($task["name_task"]);  ?> <?php endif; ?></a>
                                 </td>
 
-                                <td class="task__date"><?php if (isset($task["deadline"])): ?> <?= strip_tags($task["deadline"]);  ?> <?php endif; ?></td>
+                                <td class="task__date"><?php if (isset($task["done_at"])): ?> <?= strip_tags($task["done_at"]);  ?> <?php endif; ?></td>
                             </tr>
                         <?php endif; ?>
-                        <?php if ($show_complete_tasks === 1 && isset($task["status"]) && $task["status"] === true): ?>
+                        <?php if ($show_complete_tasks === 1 && isset($task["status"]) && $task["status"] === 1): ?>
                                 <tr class="tasks__item task task--completed">
                                     <td class="task__select">
                                         <label class="checkbox task__checkbox">
@@ -48,7 +48,7 @@
                                             <span class="checkbox__text"><?php if (isset($task["name_task"])): ?> <?= strip_tags($task["name_task"]);  ?> <?php endif; ?></span>
                                         </label>
                                     </td>
-                                    <td class="task__date"><?php if (isset($task["deadline"])): ?> <?= strip_tags($task["deadline"]);  ?> <?php endif; ?></td>
+                                    <td class="task__date"><?php if (isset($task["done_at"])): ?> <?= strip_tags($task["done_at"]);  ?> <?php endif; ?></td>
 
                                     <td class="task__controls">
                                     </td>
