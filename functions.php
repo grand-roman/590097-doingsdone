@@ -58,13 +58,15 @@ function Task_Important ($task){
 function request ($link, $sql, $data = []) {
  $stmt = db_get_prepare_stmt($link, $sql, $data);
     mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    if (!$result) {
+    if ($result = mysqli_stmt_get_result($stmt)) {
+         $res = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        return $res;
+        
+    }
+    else {
         $error = mysqli_error($connect);
         print("Ошибка MySQL:" .$error);
         exit();
     }
-    $res = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    return $res;
 }
 ?>
