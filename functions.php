@@ -1,4 +1,6 @@
 <?php
+require_once("mysql_helper.php");
+
 function include_template($name, $data) {
     $name = "templates/" . $name;
     $result = '';
@@ -51,5 +53,17 @@ function Task_Important ($task){
     {
         return true;
     }
+}
+
+function request ($link, $sql, $data = []) {
+ $stmt = db_get_prepare_stmt($link, $sql, $user_id);
+    $result = mysqli_query($connect, $stmt);
+    if (!$result) {
+        $error = mysqli_error($connect);
+        print("Ошибка MySQL:" .$error);
+        exit();
+    }
+    $res = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    return $res;
 }
 ?>

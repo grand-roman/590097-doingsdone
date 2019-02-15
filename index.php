@@ -2,7 +2,7 @@
 
 require_once("functions.php");
 require_once("data.php");
-require_once("mysqli_helper.php");
+
 
 if(file_exists('config.php')) {
     require_once 'config.php';
@@ -25,27 +25,29 @@ if ($connect === false) {
     mysqli_set_charset($connect, "utf8");
 
     //SQL-запрос для получения списка проектов у текущего пользователя
-    $sql = "SELECT id, name_project FROM Project  WHERE user_id = " $user_id ;
-    $stmt = db_get_prepare_stmt($link, $sql, [$data]);
+    $sql = "SELECT id, name_project FROM Project  WHERE user_id = ?";
+    $projects = request($connect, $sql, $user_id);
+    /*$stmt = db_get_prepare_stmt($link, $sql1, $user_id);
     $result = mysqli_query($connect, $stmt);
     if (!$result) {
         $error = mysqli_error($connect);
         print("Ошибка MySQL:" .$error);
         exit();
     }
-    $projects = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $projects = mysqli_fetch_all($result, MYSQLI_ASSOC);*/
 
     //SQL-запрос для получения списка из всех задач у текущего пользователя
     $sql =  "SELECT name_task, file_task, done_at, deadline, status, project_id
-            FROM Task  where project_id =" . $user_id;
-    $stmt = db_get_prepare_stmt($link, $sql, [$data]);
+            FROM Task  where project_id = ?";
+    $tasks = request($connect, $sql, $user_id);
+    /*$stmt = db_get_prepare_stmt($link, $sql2, $user_id);
     $result = mysqli_query($connect, $stmt);
     if (!$result) {
         $error = mysqli_error($connect);
         print("Ошибка MySQL:" .$error);
         exit();
     }
-    $tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);*/
 }
 
 
