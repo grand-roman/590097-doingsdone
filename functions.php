@@ -56,8 +56,9 @@ function Task_Important ($task){
 }
 
 function request ($link, $sql, $data = []) {
- $stmt = db_get_prepare_stmt($link, $sql, $user_id);
-    $result = mysqli_query($connect, $stmt);
+ $stmt = db_get_prepare_stmt($link, $sql, $data);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
     if (!$result) {
         $error = mysqli_error($connect);
         print("Ошибка MySQL:" .$error);
