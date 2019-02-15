@@ -23,32 +23,34 @@
 
                 <table class="tasks">
                     <?php foreach($tasks_with_information as $task): ?>
-                        <?php if (isset($task["Done"]) && $task["Done"] === false ): ?>
+                        <?php if (isset($task["status"]) && $task["status"] === 0 ): ?>
                             <tr 
                                 <tr class="tasks__item task<?= Task_Important($task) ? " task--important" : '';?>">
                                 <td class="task__select">
                                     <label class="checkbox task__checkbox">
                                         <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
-                                        <span class="checkbox__text"><?php if (isset($task["Task"])): ?> <?= strip_tags($task["Task"]);  ?> <?php endif; ?></span>
+                                        <span class="checkbox__text"><?php if (isset($task["name_task"])): ?> <?= strip_tags($task["name_task"]);  ?> <?php endif; ?></span>
                                     </label>
                                 </td>
 
                                 <td class="task__file">
-                                    <a class="download-link" href="#">Home.psd</a>
+                                    <?php if (isset($task["file_task"])): ?>
+                                        <a class="download-link" href="#"> 
+                                            <?= strip_tags($task["name_task"]);  ?> <?php endif; ?></a>
                                 </td>
 
-                                <td class="task__date"><?php if (isset($task["Execution date"])): ?> <?= strip_tags($task["Execution date"]);  ?> <?php endif; ?></td>
+                                <td class="task__date"><?php if (isset($task["deadline"])): ?> <?= strip_tags($task["deadline"]);  ?> <?php endif; ?></td>
                             </tr>
                         <?php endif; ?>
-                        <?php if ($show_complete_tasks === 1 && isset($task["Done"]) && $task["Done"] === true): ?>
+                        <?php if ($show_complete_tasks === 1 && isset($task["status"]) && $task["status"] === 1): ?>
                                 <tr class="tasks__item task task--completed">
                                     <td class="task__select">
                                         <label class="checkbox task__checkbox">
                                             <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                                            <span class="checkbox__text"><?php if (isset($task["Task"])): ?> <?= strip_tags($task["Task"]);  ?> <?php endif; ?></span>
+                                            <span class="checkbox__text"><?php if (isset($task["name_task"])): ?> <?= strip_tags($task["name_task"]);  ?> <?php endif; ?></span>
                                         </label>
                                     </td>
-                                    <td class="task__date"><?php if (isset($task["Execution date"])): ?> <?= strip_tags($task["Execution date"]);  ?> <?php endif; ?></td>
+                                    <td class="task__date"><?php if (isset($task["deadline"])): ?> <?= strip_tags($task["deadline"]);  ?> <?php endif; ?></td>
 
                                     <td class="task__controls">
                                     </td>
