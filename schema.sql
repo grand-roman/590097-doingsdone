@@ -22,9 +22,7 @@ CREATE TABLE Project (
 CREATE TABLE Task (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	name_task CHAR(128) NOT NULL,
-	creation_at DATETIME DEFAULT NOW(),
-	deadline DATETIME,
-	done_at DATETIME,
+	deadline DATE,
 	file_task VARCHAR(128),
 	project_id INT,
 	user_id INT NOT NULL,

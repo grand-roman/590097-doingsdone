@@ -64,6 +64,7 @@ function request ($link, $sql, $data = []) {
         
     }
     else {
+        http_response_code(503);
         $error = mysqli_error($link);
         print("Ошибка MySQL:" .$error);
         exit();
