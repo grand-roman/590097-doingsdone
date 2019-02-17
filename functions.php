@@ -70,4 +70,38 @@ function request ($link, $sql, $data = []) {
         exit();
     }
 }
+
+
+class DbConnectionProvider
+{
+    protected static $connection;
+
+    public static function getConnection()
+    {
+         if (self::connection === null) {
+              self::connection = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+         }
+
+         return self::connection;
+    }
+}
+
+function getProjects ($userId){
+
+    $sql = "SELECT id, name_project FROM Project WHERE user_id = ?";
+    //$connection = DbConnectionProvider::getConnection();
+    $projects = request($connection, $sql, [$user_id]);
+
+    return $projects;
+}
+
+function getTasks($userId, $projectId){
+
+    $sql =  "SELECT name_task, file_task, deadline, status, user_id, project_id
+            FROM Task WHERE user_id = ?";
+    //$connection = DbConnectionProvider::getConnection();
+    $tasks = request($connection, $sql, [$user_id]);
+
+    return $tasks;
+}
 ?>
