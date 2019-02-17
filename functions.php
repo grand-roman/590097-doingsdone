@@ -78,30 +78,46 @@ class DbConnectionProvider
 
     public static function getConnection()
     {
-         if (self::connection === null) {
-              self::connection = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-         }
+         if (self::$connection === null) {
+              self::$connection = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+            if(!self::$connection) {
 
-         return self::connection;
+            http_response_code(503);
+            print("Ошибка MySQL: connection failed");
+            exit();
+            }
+
+            mysqli_set_charset(self::$connection, "utf8");
+        }
+
+         return self::$connection;
     }
 }
 
-function getProjects ($userId){
+//SQL-запрос для получения списка проектов у текущего пользователя
+function getProjects ($user_id){
 
+    $connection = DbConnectionProvider::getConnection();
     $sql = "SELECT id, name_project FROM Project WHERE user_id = ?";
-    //$connection = DbConnectionProvider::getConnection();
-    $projects = request($connection, $sql, [$user_id]);
 
-    return $projects;
+    $parameters = [$user_id];
+
+    return request($connection, $sql, $parameters);
 }
 
-function getTasks($userId, $projectId){
+//SQL-запрос для получения списка из всех задач у текущего пользователя
+function getTasks($user_id, $project_id = null){
 
+    $connection = DbConnectionProvider::getConnection();
     $sql =  "SELECT name_task, file_task, deadline, status, user_id, project_id
             FROM Task WHERE user_id = ?";
-    //$connection = DbConnectionProvider::getConnection();
-    $tasks = request($connection, $sql, [$user_id]);
+    $parameters = [$user_id];
 
-    return $tasks;
+    if($project_id != null){
+        $sql .= " AND project_id = ?";
+        $parameters[]= $project_id;
+    }
+
+    return request($connection, $sql, $parameters);
 }
 ?>
