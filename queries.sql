@@ -15,12 +15,12 @@ VALUES
 
 INSERT INTO Task (name_task, creation_at, deadline, done_at, file_task, project_id, user_id, status)
 VALUES
-('Собеседование в IT компании', NOW(), null, '2019-12-01', 'Home.psd', 3, 1, false), -- 1
-('Выполнить тестовое задание', NOW(), null, '2018-12-25', 'Home.psd', 3, 1, false), -- 2
-('Сделать задание первого раздела', NOW(), '2019-12-21', '2019-12-22', 'Home.psd', 2, 2, true), -- 3
-('Встреча с другом', NOW(), null, '2018-12-22', 'Home.psd', 1, 1, false), -- 4
-('Купить корм для кота', NOW(), null, '2019-02-09', 'Home.psd', 4, 2, false), -- 5
-('Заказать пиццу', NOW(), null, '2019-02-10', 'Home.psd', 4, 2, false); -- 6
+('Собеседование в IT компании', NOW(), '2019-12-01', null,'Home.psd', 3, 1, 0), -- 1
+('Выполнить тестовое задание', NOW(), '2018-12-25', null, 'Home.psd', 3, 1, 0), -- 2
+('Сделать задание первого раздела', NOW(), '2019-01-21', '2019-01-20', 'Home.psd', 2, 2, 1), -- 3
+('Встреча с другом', NOW(), '2018-12-22', null, 'Home.psd', 1, 1, 0), -- 4
+('Купить корм для кота', NOW(), '2019-02-09', null, 'Home.psd', 4, 2, 0), -- 5
+('Заказать пиццу', NOW(), '2019-02-10', null, 'Home.psd', 4, 2, 0); -- 6
 
 -- получить список из всех проектов для одного пользователя
 SELECT id, name_project
@@ -28,11 +28,11 @@ SELECT id, name_project
  WHERE user_id = 1;
 
 -- получить список из всех задач для одного проекта
-SELECT name_task, file_task, done_at, deadline, status, project_id
+SELECT name_task, file_task, deadline, status, project_id
   FROM Task  where project_id = 1;
 
 -- пометить задачу как выполненную
-UPDATE Task SET status = true, done_at = NOW()
+UPDATE Task SET status = 1, done_at = NOW()
 WHERE id = 3;
 
 -- обновить название задачи по её идентификатору

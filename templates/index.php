@@ -36,7 +36,7 @@
                                 <td class="task__file">
                                     <?php if (isset($task["file_task"])): ?>
                                         <a class="download-link" href="#"> 
-                                            <?= strip_tags($task["name_task"]);  ?> <?php endif; ?></a>
+                                            <?= strip_tags($task["file_task"]);  ?> <?php endif; ?></a>
                                 </td>
 
                                 <td class="task__date"><?php if (isset($task["deadline"])): ?> <?= strip_tags($task["deadline"]);  ?> <?php endif; ?></td>

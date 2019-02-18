@@ -10,29 +10,23 @@ if(file_exists('config.php')) {
     require_once 'config.default.php';
 }
 
+$user_id = 1;
 
-//$connect = mysqli_connect("localhost", "root", "", "doingsdone");
-$connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+$project_id = isset($_GET['project_id']) ? (int)$_GET['project_id'] : null;
 
- $user_id = 1;
+$projects = getProjects ($user_id);
 
-if ($connect === false) {
-    $error = mysqli_error($connect);
-    print("Ошибка MySQL:" .$error);
-    exit();
-} 
+if($project_id === 0){
+    echo 404;
+    exit;
+}
 
-mysqli_set_charset($connect, "utf8");
+$tasks = getTasks($user_id, $project_id); 
 
-//SQL-запрос для получения списка проектов у текущего пользователя
-$sql = "SELECT id, name_project FROM Project  WHERE user_id = ?";
-$projects = request($connect, $sql, [$user_id]);
-
-    //SQL-запрос для получения списка из всех задач у текущего пользователя
-$sql =  "SELECT name_task, file_task, done_at, deadline, status, project_id
-        FROM Task  where project_id = ?";
-$tasks = request($connect, $sql, [$user_id]);
-   
+if(count($tasks)===0){
+    echo 404;
+    exit;
+}
 
 $page_content = include_template("index.php", [
     "tasks_with_information" => $tasks,
