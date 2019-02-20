@@ -23,6 +23,8 @@ if($project_id === 0){
 
 $tasks = getTasks($user_id, $project_id); 
 
+$taskall = getAllTasks($user_id); 
+
 if(count($tasks)===0){
     echo 404;
     exit;
@@ -37,7 +39,8 @@ $layout_content = include_template("layout.php", [
     "project_tasks" => $projects,
     "tasks_with_information" => $tasks,
     "content" => $page_content,
-    "title" => "Дела в порядке"
+    "title" => "Дела в порядке",
+    "tasks_all" => $taskall
 ]);
 print($layout_content);
 ?>
