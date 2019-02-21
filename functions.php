@@ -124,7 +124,8 @@ function getTasks($user_id, $project_id = null){
 function getAllTasks($user_id){
 
     $connection = DbConnectionProvider::getConnection();
-    $sql =  "SELECT * FROM Task WHERE user_id = ?";
+     $sql =  "SELECT name_task, file_task, deadline, status, user_id, project_id
+            FROM Task WHERE user_id = ?";
     $parameters = [$user_id];
 
     return request($connection, $sql, $parameters);
@@ -135,6 +136,6 @@ function setTasks($user_id){
     $connection = DbConnectionProvider::getConnection();
     $sql = 'INSERT INTO Task (name_task, deadline, user_id, project_id , file_task) VALUES (?, ?, 1, ?, ?)';
 
-    return request($connection, $sql, [$task["name_task"], date("Y-m-d",strtotime($tasks["date"])), $tasks["project_id"], $tasks['pictures']]);
+    return request($connection, $sql, [$task["name"], date("Y-m-d",strtotime($task["date"])), $task["project"], $task['preview']]);
 }
 ?>

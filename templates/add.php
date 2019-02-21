@@ -2,29 +2,32 @@
 
         <form class="form"  action="" method="post" enctype="multipart/form-data">
           <div class="form__row">
-            <?php $task = isset($task['name_task']) ? $task['name_task'] : ""; ?>
+            
             <label class="form__label" for="name">Название <sup>*</sup></label>
 
-            <input class="form__input" type="text" name="name" id="name" value="<?=$task;?>" placeholder="Введите название">
+            <input class="form__input <?=(isset($errors_task['name']) ? "form__input--error" : "");?>" type="text" name="name" id="name" placeholder="Введите название" value="<?=(isset($_POST['name']) ? $_POST['name'] : ""); ?>" >
+        <p class="form__message"><?=(isset($errors_task['name']) ? $errors_task['name'] : "");?></p>
           </div>
 
 
           <div class="form__row">
             <label class="form__label" for="project">Проект</label>
 
-            <select class="form__input form__input--select" name="project" id="project">
-               <?php foreach ($project_tasks as $project): ?>
+            <select class="form__input form__input--select <?=(isset($errors_task['project']) ? "form__input--error" : "");?>" name="project" id="project">
+          <?php foreach ($project_tasks as $project): ?>
               <option value="<?=$project["id"] ?>"><?=$project["name_project"] ?></option>
               <?php endforeach; ?>
+
             </select>
+              <p class="form__message"><?=(isset($errors_task['project']) ? $errors_task['project'] : "");?></p>
           </div>
 
           <div class="form__row">
-                  <?php $data = isset($task['date']) ? $task['date'] : ""; ?>
+                 
             <label class="form__label" for="date">Дата выполнения</label>
 
-            <input class="form__input form__input--date" type="date" name="date" id="date" value="<?=$data;?>" placeholder="Введите дату в формате ДД.ММ.ГГГГ">
-
+          <input class="form__input form__input--date <?=(isset($errors_task['date']) ? "form__input--error" : "");?>" type="date" name="date" id="date" placeholder="Введите дату в формате ДД.ММ.ГГГГ" value="<?=(isset($_POST['date']) ? $_POST['date'] : "");?>" >
+        <p class="form__message"><?=(isset($errors_task['date']) ? $errors_task['date'] : "");?></p>
           </div>
 
           <div class="form__row">
