@@ -131,11 +131,43 @@ function getAllTasks($user_id){
     return request($connection, $sql, $parameters);
 }
 
-function setTasks($user_id, $task){
+function setTasks(int $user_id, string $name_task, int $project_id, ?string $date, ?string $file){
 
     $connection = DbConnectionProvider::getConnection();
-    $sql = 'INSERT INTO Task (name_task, deadline, user_id, project_id , file_task) VALUES (?, ?, 1, ?, ?)';
+    $sql = 'INSERT INTO Task SET user_id = ?, name_task = ?, creation_at = NOW()';
+    $values = [$user_id, $name_task];
 
-    return request($connection, $sql, [$task["name"], date("Y-m-d",strtotime($task["date"])), $task["project"], $task['preview']]);
+    if ($project_id !== 0) {
+    $sql .= ', project_id = ?';
+    $values[] = $project_id;
+    }
+
+    if ($date !== null) {
+    $sql .= ', deadline = ?';
+    $values[] = $date;
+    }
+
+    if ($file !== null) {
+    $sql .= ', file_task = ?';
+    $values[] = $file;
+    }
+
+    $stmt = db_get_prepare_stmt($connection, $sql, $values);
+    mysqli_stmt_execute($stmt);
+}
+
+function isProjectExists($user_id, $projecti){
+ 
+    $connection = DbConnectionProvider::getConnection();
+    $sql =  "SELECT name_project
+            FROM Project WHERE user_id = ?";
+    $parameters = [$user_id];
+
+    $res= request($connection, $sql, $parameters);
+
+    if($res['name_project'] === $projecti){
+        return true;
+    }
+
 }
 ?>
