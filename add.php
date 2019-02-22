@@ -26,7 +26,7 @@ $required_fields = ['name_task', 'project_tasks'];
 
      if (is_uploaded_file($_FILES['preview']['tmp_name'])) {
         $file_task = $_FILES['preview']['name'];
-        $file_task = $_FILES['preview']['tmp_name'];
+        $file_path = $_FILES['preview']['tmp_name'];
         move_uploaded_file($file_path, __DIR__ . '/' . $file_task);
         $task['file_task'] = $file_task;
     } else {
@@ -35,7 +35,7 @@ $required_fields = ['name_task', 'project_tasks'];
 
 
 if (empty($errors_task)) {
-  $res = setTasks($user_id);
+  $res = setTasks($user_id, $task);
 }
   if ($res) {
     header("Location: /");
@@ -48,6 +48,8 @@ if (empty($errors_task)) {
 
 $add_content = include_template('add.php', [
   "project_tasks" => $projects,
+  "errors_task" => $errors_task,
+  "task" => $task
 ]);
 
 $add_layout_content = include_template('layout.php', [

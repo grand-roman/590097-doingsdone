@@ -131,7 +131,7 @@ function getAllTasks($user_id){
     return request($connection, $sql, $parameters);
 }
 
-function setTasks($user_id){
+function setTasks($user_id, $task){
 
     $connection = DbConnectionProvider::getConnection();
     $sql = 'INSERT INTO Task (name_task, deadline, user_id, project_id , file_task) VALUES (?, ?, 1, ?, ?)';
