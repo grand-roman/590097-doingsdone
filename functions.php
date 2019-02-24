@@ -155,19 +155,4 @@ function setTasks(int $user_id, string $name_task, int $project_id, ?string $dat
     $stmt = db_get_prepare_stmt($connection, $sql, $values);
     mysqli_stmt_execute($stmt);
 }
-
-function isProjectExists($user_id, $projecti){
- 
-    $connection = DbConnectionProvider::getConnection();
-    $sql =  "SELECT name_project
-            FROM Project WHERE user_id = ?";
-    $parameters = [$user_id];
-
-    $res= request($connection, $sql, $parameters);
-
-    if($res['name_project'] === $projecti){
-        return true;
-    }
-
-}
 ?>
