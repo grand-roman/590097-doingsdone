@@ -1,5 +1,6 @@
 <?php
 require_once("mysql_helper.php");
+error_reporting(E_ALL);
 
 function include_template($name, $data) {
     $name = "templates/" . $name;
@@ -172,13 +173,12 @@ function checkEmail($email){
     return mysqli_real_escape_string($connection, $email);
 }
 
-function repeatEmail($email){
+function repeatEmail($repeat_email){
 
     $connection = DbConnectionProvider::getConnection();
-    $sql = "SELECT id FROM User WHERE email = '$email'";
-    $res = mysqli_query($connection, $sql);
-    
+    $sql = "SELECT * FROM User WHERE email = ?";
+    $parameters = [$repeat_email];
 
-    return $res;
+    return  request($connection, $sql, $parameters);
 }
 ?>

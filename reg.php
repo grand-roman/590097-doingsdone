@@ -2,6 +2,7 @@
 
 require_once("functions.php");
 require_once("data.php");
+error_reporting(E_ALL);
 
 $errors_user = [];
 
@@ -22,30 +23,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    if (!empty($user_reg['email'])){
+    $res = repeatEmail($user_reg['email']);
 
-    	$res = repeatEmail($email);
-    }
 
-    if (mysqli_num_rows($res) > 0) {
-           $errors_user[] = 'Пользователь с этим email уже зарегистрирован';
-        }
+	if (!empty($res)) {
+	    $errors_user['email'] = 'Пользователь с этим email уже зарегистрирован';
+	}
 
-    if (!empty($user_reg['password'])) {
-        $password = password_hash($user_reg['password'], PASSWORD_DEFAULT);
-    }
-   
-    if (!empty($errors_user===0)) {
-        regUser(
-		    $user_reg['email'],
-		    $user_reg['name'],
-		    $password);
+
+    if (empty($errors_user)) {
+    
+	    $password = password_hash($user_reg['password'], PASSWORD_DEFAULT);   
+	    
+	    regUser(
+			$user_reg['email'],
+			$user_reg['name'],
+			$password);
 		header("Location: /");
-       
-    }
+	       
+	}
      else {
-      $reg_content = include_template('reg.php', ['errors_user' => $errors_user, 'user_reg' => $user_reg]);
-    }
+      $reg_content = include_template('reg.php', ['errors_user' => $errors_user, 'user_reg' => $user_reg]); 
+  }
+
+    
 }
 $reg_layout = include_template('reg-layout.php', [
     'content'    => $reg_content,
