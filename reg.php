@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = password_hash($user_reg['password'], PASSWORD_DEFAULT);
     }
    
-    if (count($errors_user===0)) {
+    if (!empty($errors_user===0)) {
         regUser(
 		    $user_reg['email'],
 		    $user_reg['name'],
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
        
     }
      else {
-      $reg_content = include_template('reg.php', ['errors' => $errors_user, 'form' => $user_reg]);
+      $reg_content = include_template('reg.php', ['errors_user' => $errors_user, 'user_reg' => $user_reg]);
     }
 }
 $reg_layout = include_template('reg-layout.php', [
