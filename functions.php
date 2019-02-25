@@ -156,14 +156,29 @@ function setTasks(int $user_id, string $name_task, int $project_id, ?string $dat
     mysqli_stmt_execute($stmt);
 }
 
-function vrem($q,$w,$r){
+function regUser($email,$name,$password){
 
     $connection = DbConnectionProvider::getConnection();
-    //$sql = 'INSERT INTO Task SET user_id = ?, name_task = ?, creation_at = NOW()';
     $sql = 'INSERT INTO User SET email=?, name_user=?, password=?, reg_date=NOW()';
-    $values = [$q,$w,$r];
+    $values = [$email,$name,$password];
 
     $stmt = db_get_prepare_stmt($connection, $sql, $values);
     mysqli_stmt_execute($stmt);
+}
+
+function checkEmail($email){
+
+    $connection = DbConnectionProvider::getConnection();
+    return mysqli_real_escape_string($connection, $email);
+}
+
+function repeatEmail($email){
+
+    $connection = DbConnectionProvider::getConnection();
+    $sql = "SELECT id FROM User WHERE email = '$email'";
+    $res = mysqli_query($connection, $sql);
+    
+
+    return $res;
 }
 ?>
