@@ -7,11 +7,6 @@ require_once("data.php");
 $errors_task = [];
 $task = [];
 
-$add_content = include_template('add.php', [
-  "project_tasks" => $projects,
-]);
-
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   $required_fields = ['name'];
@@ -28,10 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
   }
 
- if ($projects[$_POST['project']] === NULL || $projects[$_POST['project']] === '') {
-      $errors_task['project'] = 'Выбран несуществующий проект';
-    }
-
   if(!empty($task['date']) && strtotime($task['date']) <= time())
   {
 
@@ -41,11 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if(count($errors_task)===0 && isset($_FILES['preview']['tmp_name'])
     && is_uploaded_file($_FILES['preview']['tmp_name']))
   {
-       $file_task = '/uploads/'. isset($_FILES['preview']['name']) ?
+       $file_task = isset($_FILES['preview']['name']) ?
        $_FILES['preview']['name'] : 'default_filename';
        $file_path = $_FILES['preview']['tmp_name'];
 
-       move_uploaded_file($file_path, __DIR__ . '/' . $file_task);
+       move_uploaded_file($file_path, __DIR__ . '/uploads/'. $file_task);
        $task['file'] = $file_task;
   }
 
