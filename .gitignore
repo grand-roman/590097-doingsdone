@@ -10,3 +10,6 @@ vendor
 
 
 config.php
+
+uploads/*
+!uploads/.gitkeep

@@ -120,4 +120,50 @@ function getTasks($user_id, $project_id = null){
 
     return request($connection, $sql, $parameters);
 }
+
+function getAllTasks($user_id){
+
+    $connection = DbConnectionProvider::getConnection();
+     $sql =  "SELECT name_task, file_task, deadline, status, user_id, project_id
+            FROM Task WHERE user_id = ?";
+    $parameters = [$user_id];
+
+    return request($connection, $sql, $parameters);
+}
+
+function setTasks(int $user_id, string $name_task, int $project_id, ?string $date, ?string $file){
+
+    $connection = DbConnectionProvider::getConnection();
+    $sql = 'INSERT INTO Task SET user_id = ?, name_task = ?, creation_at = NOW()';
+    $values = [$user_id, $name_task];
+
+    if ($project_id !== 0) {
+    $sql .= ', project_id = ?';
+    $values[] = $project_id;
+    }
+
+    if ($date !== null) {
+    $sql .= ', deadline = ?';
+    $values[] = $date;
+    }
+
+    if ($file !== null) {
+    $sql .= ', file_task = ?';
+    $values[] = $file;
+    }
+
+    $stmt = db_get_prepare_stmt($connection, $sql, $values);
+    mysqli_stmt_execute($stmt);
+}
+
+function vrem($q,$w,$r){
+
+    $connection = DbConnectionProvider::getConnection();
+    //$sql = 'INSERT INTO Task SET user_id = ?, name_task = ?, creation_at = NOW()';
+    $sql = 'INSERT INTO User SET email=?, name_user=?, password=?, reg_date=NOW()';
+    $values = [$q,$w,$r];
+
+    $stmt = db_get_prepare_stmt($connection, $sql, $values);
+    mysqli_stmt_execute($stmt);
+}
 ?>
