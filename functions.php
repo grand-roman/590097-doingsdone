@@ -179,9 +179,10 @@ function repeatEmail($repeat_email){
 function logUser($email){
 
     $connection = DbConnectionProvider::getConnection();
-    $sql = "SELECT * FROM User WHERE email = ?";
-    $parameters = [$email];
+    $sql = "SELECT * FROM User WHERE email = '" . $email . "'";
+    $res = mysqli_query($connection, $sql);
+    $parameters = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : NULL;
 
-    return request($connection, $sql, $parameters);
+    return $parameters;
 }
 ?>
