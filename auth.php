@@ -39,7 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 $auth_content = include_template('auth.php', [
     'user_log' => $user_log,
-    '$errors_log' => $errors_log
+    '$errors_log' => $errors_log 
+]);
 
 
 $layout_content = include_template('layout.php', [
@@ -51,4 +52,5 @@ $layout_content = include_template('layout.php', [
     'title' => 'Дела в порядке | Вход'
 ]);
 print($layout_content);
+
 ?>
