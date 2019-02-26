@@ -185,4 +185,15 @@ function logUser($email){
 
     return $parameters;
 }
+
+function getUser($user_id){
+
+    $connection = DbConnectionProvider::getConnection();
+    $sql =  "SELECT *
+            FROM User WHERE id = ?";
+    $parameters = [$user_id];
+
+    return request($connection, $sql, $parameters);
+
+}
 ?>

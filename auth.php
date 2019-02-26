@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (empty($errors_log)) {
-        header("Location: /index.php");
+        header("Location: /590097-doingsdone/index.php");
         exit();
     } 
 } 
