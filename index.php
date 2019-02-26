@@ -5,20 +5,14 @@ require_once("init.php");
 
 if (!empty($_SESSION)) {
 
-$project_id = isset($_GET['project_id']) ? (int)$_GET['project_id'] : null;
-
-$projects = getProjects ($user_id);
+require_once("data.php");
 /*
 if($project_id === 0){
     echo 404;
     exit;
 }
 */
-$tasks = getTasks($user_id, $project_id); 
 
-$taskall = getAllTasks($user_id); 
-
-$user = getUser($user_id);
 /*
 if(count($tasks)===0){
     echo 404;
