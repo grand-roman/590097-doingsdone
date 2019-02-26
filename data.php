@@ -1,14 +1,11 @@
 <?php
 
 require_once("functions.php");
+require_once("init.php");
 
-if(file_exists('config.php')) {
-    require_once 'config.php';
-} else {
-    require_once 'config.default.php';
-}
 
-$user_id = 1;
+session_start();
+$user_id = ($_SESSION['user']['id'] ?? NULL);
 
 $project_id = isset($_GET['project_id']) ? (int)$_GET['project_id'] : null;
 

@@ -1,19 +1,19 @@
 <?php
 
 require_once("functions.php");
-require_once("data.php");
+require_once("init.php");
 error_reporting(E_ALL);
 
 $errors_user = [];
+$user_reg = [];
 
 $reg_content = include_template('reg.php', []);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_reg = $_POST['signup'];
+    $user_reg = $_POST['signup'] ?? [];
     $req_fields = ['email', 'password', 'name'];
-    $email = checkEmail($user_reg['email']);
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (isset($user_reg['email']) && !filter_var($user_reg['email'], FILTER_VALIDATE_EMAIL)) {
       $errors_user['email'] = "E-mail введён некорректно";
     }
 
@@ -42,12 +42,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		header("Location: /");
 	       
 	}
-     else {
-      $reg_content = include_template('reg.php', ['errors_user' => $errors_user, 'user_reg' => $user_reg]); 
-  }
-
-    
+     
 }
+
+$reg_content = include_template('reg.php', [
+  "errors_user" => $errors_user,
+  "user_reg" => $user_reg
+]);
+
 $reg_layout = include_template('reg-layout.php', [
     'content'    => $reg_content,
     'title'      => 'Регистрация'

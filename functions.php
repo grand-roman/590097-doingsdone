@@ -167,12 +167,6 @@ function regUser($email,$name,$password){
     mysqli_stmt_execute($stmt);
 }
 
-function checkEmail($email){
-
-    $connection = DbConnectionProvider::getConnection();
-    return mysqli_real_escape_string($connection, $email);
-}
-
 function repeatEmail($repeat_email){
 
     $connection = DbConnectionProvider::getConnection();
@@ -180,5 +174,14 @@ function repeatEmail($repeat_email){
     $parameters = [$repeat_email];
 
     return  request($connection, $sql, $parameters);
+}
+
+function logUser($email){
+
+    $connection = DbConnectionProvider::getConnection();
+    $sql = "SELECT * FROM User WHERE email = ?";
+    $parameters = [$email];
+
+    return request($connection, $sql, $parameters);
 }
 ?>
