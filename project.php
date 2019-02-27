@@ -19,11 +19,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	if (empty($project['name'])) {
     $errors_project['name'] = 'Это поле надо заполнить';
 	}
+  else {
 
-  $res = checkProject($user_id, $project['name']);
-	if (mysqli_num_rows($res) > 0) {
+    $res = checkProject($user_id, $project['name']);
+
+  if (mysqli_num_rows($res) > 0) {
     $errors_project['name'] = 'Такой проект уже существует';
   }
+
+  }
+  
   if (count($errors_project) === 0) {
 
     setProject($user_id,

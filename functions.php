@@ -151,6 +151,8 @@ function setTasks(int $user_id, string $name_task, int $project_id, ?string $dat
     if ($project_id !== 0) {
     $sql .= ', project_id = ?';
     $values[] = $project_id;
+    }   else {
+        $sql .= ', project_id = NULL';
     }
 
 
@@ -172,7 +174,7 @@ function setTasks(int $user_id, string $name_task, int $project_id, ?string $dat
 function checkProject(int $user_id, string $project){
 
     $connection = DbConnectionProvider::getConnection();
-    $sql = "SELECT name_project FROM Project WHERE name = '$project' && $user_id = $user_id LIMIT 1";
+    $sql = "SELECT name_project FROM Project WHERE name_project = '" . $project ."'AND user_id = ' " . $user_id . "' LIMIT 1";
     $res = mysqli_query($connection, $sql);
 
     return $res;
@@ -181,7 +183,7 @@ function checkProject(int $user_id, string $project){
 function setProject(int $user_id, string $project){
 
     $connection = DbConnectionProvider::getConnection();
-    $sql = 'INSERT INTO Projest SET user_id = ?, name_project = ?';
+    $sql = 'INSERT INTO Project SET user_id = ?, name_project = ?';
     $values = [$user_id, $project];
 
     $stmt = db_get_prepare_stmt($connection, $sql, $values);
@@ -211,7 +213,7 @@ function repeatEmail($repeat_email){
 function logUser($email){
 
     $connection = DbConnectionProvider::getConnection();
-    $sql = "SELECT * FROM User WHERE email = '$email'";
+    $sql = "SELECT * FROM User WHERE email = '". $email ."'";
     $res = mysqli_query($connection, $sql);
     $parameters = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : NULL;
 
