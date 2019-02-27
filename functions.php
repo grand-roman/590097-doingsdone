@@ -56,6 +56,16 @@ function Task_Important ($task){
     }
 }
 
+/**
+ * Создает массив на основе готового SQL запроса и переданных данных
+ *
+ * @param mysqli $link Ресурс соединения
+ * @param string $sql SQL запрос с плейсхолдерами вместо значений
+ * @param array $data Данные для вставки на место плейсхолдеров
+ *
+ * @return array результ SQL запроса
+ */
+
 function request ($link, $sql, $data = []) {
  $stmt = db_get_prepare_stmt($link, $sql, $data);
     mysqli_stmt_execute($stmt);
@@ -141,7 +151,11 @@ function setTasks(int $user_id, string $name_task, int $project_id, ?string $dat
     if ($project_id !== 0) {
     $sql .= ', project_id = ?';
     $values[] = $project_id;
+    }   else {
+        $sql .= ', project_id = NULL';
     }
+
+
 
     if ($date !== null) {
     $sql .= ', deadline = ?';
@@ -157,6 +171,26 @@ function setTasks(int $user_id, string $name_task, int $project_id, ?string $dat
     mysqli_stmt_execute($stmt);
 }
 
+function checkProject(int $user_id, string $project){
+
+    $connection = DbConnectionProvider::getConnection();
+    $sql = "SELECT name_project FROM Project WHERE name_project = '" . $project ."'AND user_id = ' " . $user_id . "' LIMIT 1";
+    $res = mysqli_query($connection, $sql);
+
+    return $res;
+}
+
+function setProject(int $user_id, string $project){
+
+    $connection = DbConnectionProvider::getConnection();
+    $sql = 'INSERT INTO Project SET user_id = ?, name_project = ?';
+    $values = [$user_id, $project];
+
+    $stmt = db_get_prepare_stmt($connection, $sql, $values);
+    mysqli_stmt_execute($stmt);
+}
+
+
 function regUser($email,$name,$password){
 
     $connection = DbConnectionProvider::getConnection();
@@ -167,12 +201,6 @@ function regUser($email,$name,$password){
     mysqli_stmt_execute($stmt);
 }
 
-function checkEmail($email){
-
-    $connection = DbConnectionProvider::getConnection();
-    return mysqli_real_escape_string($connection, $email);
-}
-
 function repeatEmail($repeat_email){
 
     $connection = DbConnectionProvider::getConnection();
@@ -180,5 +208,26 @@ function repeatEmail($repeat_email){
     $parameters = [$repeat_email];
 
     return  request($connection, $sql, $parameters);
+}
+
+function logUser($email){
+
+    $connection = DbConnectionProvider::getConnection();
+    $sql = "SELECT * FROM User WHERE email = '". $email ."'";
+    $res = mysqli_query($connection, $sql);
+    $parameters = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : NULL;
+
+    return $parameters;
+}
+
+function getUser($user_id){
+
+    $connection = DbConnectionProvider::getConnection();
+    $sql =  "SELECT *
+            FROM User WHERE id = ?";
+    $parameters = [$user_id];
+
+    return request($connection, $sql, $parameters);
+
 }
 ?>

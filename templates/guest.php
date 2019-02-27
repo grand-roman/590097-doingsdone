@@ -3,66 +3,38 @@
 
 <head>
     <meta charset="UTF-8">
-    <title><?= strip_tags($title); ?></title>
+    <title><?=$title;?></title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/flatpickr.min.css">
 </head>
 
-<body>
+<body class="body-background">
 <h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper">
-    <div class="container container--with-sidebar">
+    <div class="container">
         <header class="main-header">
-            <a href="/">
-                <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
+            <a href="#">
+                <img src="img/logo.png" width="153" height="42" alt="Логитип Дела в порядке">
             </a>
 
             <div class="main-header__side">
-                <?php if (empty($user_name)) : ?>
-                    <a class="main-header__side-item button button--transparent" href="auth.php">Войти</a>
-                <?php else :?>
-                    <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить задачу</a>
-                    <div class="main-header__side-item user-menu">
-                        <div class="user-menu__image">
-                            <img src="img/user.png" width="40" height="40" alt="Пользователь">
-                        </div>
-                        <div class="user-menu__data">
-                            <p><?= $user_name; ?></p>
-                            <a href="logout.php">Выйти</a>
-                        </div>
-                 <?php endif; ?>         
+                <a class="main-header__side-item button button--transparent" href="auth.php">Войти</a>
             </div>
         </header>
 
         <div class="content">
-            <section class="content__side">
-            	 <?php if (empty($user_name)) :?>
-                    <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
-                    <a class="button button--transparent content__side-button" href="auth.php">Войти</a>
-                <?php else :?>
-                <h2 class="content__side-heading">Проекты</h2>
+            <section class="welcome">
+                <h2 class="welcome__heading">«Дела в порядке»</h2>
 
-                <nav class="main-navigation">
-                    <ul class="main-navigation__list">
-                        <?php foreach ($project_tasks as $task): ?>
-                            <li class="main-navigation__list-item">
-                                <a class="main-navigation__list-item-link" href="<?='?project_id=' . $task['id'];?>"><?=strip_tags($task["name_project"]);?></a>
-                                <span class="main-navigation__list-item-count"><?=Counting_Task($tasks_all, $task["id"]);?></span>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </nav>
+                <div class="welcome__text">
+                    <p>«Дела в порядке» — это веб приложение для удобного ведения списка дел. Сервис помогает пользователям не забывать о предстоящих важных событиях и задачах.</p>
 
-                <a class="button button--transparent button--plus content__side-button"
-                   href="project.php" target="project_add"> Добавить проект</a>
-            <?php endif ;?>
+                    <p>После создания аккаунта, пользователь может начать вносить свои дела, деля их по проектам и указывая сроки.</p>
+                </div>
+
+                <a class="welcome__button button" href="reg.php">Зарегистрироваться</a>
             </section>
-
-            <main class="content__main">
-                <?= $content; ?>
-            </main>
         </div>
     </div>
 </div>
@@ -74,8 +46,6 @@
 
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
-
-        <a class="main-footer__button button button--plus" href="add.php">Добавить задачу</a>
 
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
@@ -126,7 +96,5 @@
     </div>
 </footer>
 
-<script src="flatpickr.js"></script>
-<script src="script.js"></script>
 </body>
 </html>

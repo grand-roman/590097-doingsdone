@@ -1,11 +1,16 @@
 <?php
 
 require_once("functions.php");
-require_once("data.php");
+require_once("init.php");
 
+
+
+if (!empty($_SESSION)) {
 
 $errors_task = [];
 $task = [];
+
+require_once("data.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -62,7 +67,15 @@ $add_layout_content = include_template('layout.php', [
     "tasks_with_information" => $tasks,
     "content" => $add_content,
     "title" => "Дела в порядке",
-    "tasks_all" => $taskall
+    "tasks_all" => $taskall,
+    "user_name" => $user[0]['name_user']
 ]);
+
+}
+ else {
+  $add_layout_content = include_template('guest.php', [
+        'title' => 'Дела в порядке']);
+}
+
 print($add_layout_content);
 ?>

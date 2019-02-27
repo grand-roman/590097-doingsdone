@@ -13,7 +13,8 @@
           <div class="form__row">
             <label class="form__label" for="project">Проект</label>
 
-            <select class="form__input form__input--select <?=(isset($errors_task['project']) ? "form__input--error" : "");?>" name="project" id="project">
+            <select class="form__input form__input--select <?=(isset($errors_task['project']) ? "form__input--error" : "");?>" name="project" id="project" >
+               <option value="0"></option>
           <?php foreach ($project_tasks as $project): ?>
               <option value="<?=$project["id"] ?>"><?=$project["name_project"] ?></option>
               <?php endforeach; ?>
