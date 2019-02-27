@@ -18,7 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errors_log[$required_field] = 'Это поле надо заполнить';
         }
     }
-    $user = logUser($user_log['email']);
+    if (!empty($user_log['email'])){
+            $user = logUser($user_log['email']);
+    }
 
     if (empty($errors_log) && $user) {
         if (password_verify($user_log['password'], $user['password'])) {
@@ -31,14 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (empty($errors_log)) {
-        header("Location: /590097-doingsdone/index.php");
+        header("Location: /index.php");
         exit();
     } 
 } 
 
 $auth_content = include_template('auth.php', [
     'user_log' => $user_log,
-    '$errors_log' => $errors_log 
+    'errors_log' => $errors_log 
 ]);
 
 

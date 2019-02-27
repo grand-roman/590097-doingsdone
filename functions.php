@@ -56,6 +56,16 @@ function Task_Important ($task){
     }
 }
 
+/**
+ * Создает массив на основе готового SQL запроса и переданных данных
+ *
+ * @param mysqli $link Ресурс соединения
+ * @param string $sql SQL запрос с плейсхолдерами вместо значений
+ * @param array $data Данные для вставки на место плейсхолдеров
+ *
+ * @return array результ SQL запроса
+ */
+
 function request ($link, $sql, $data = []) {
  $stmt = db_get_prepare_stmt($link, $sql, $data);
     mysqli_stmt_execute($stmt);
@@ -143,6 +153,8 @@ function setTasks(int $user_id, string $name_task, int $project_id, ?string $dat
     $values[] = $project_id;
     }
 
+
+
     if ($date !== null) {
     $sql .= ', deadline = ?';
     $values[] = $date;
@@ -156,6 +168,26 @@ function setTasks(int $user_id, string $name_task, int $project_id, ?string $dat
     $stmt = db_get_prepare_stmt($connection, $sql, $values);
     mysqli_stmt_execute($stmt);
 }
+
+function checkProject(int $user_id, string $project){
+
+    $connection = DbConnectionProvider::getConnection();
+    $sql = "SELECT name_project FROM Project WHERE name = '$project' && $user_id = $user_id LIMIT 1";
+    $res = mysqli_query($connection, $sql);
+
+    return $res;
+}
+
+function setProject(int $user_id, string $project){
+
+    $connection = DbConnectionProvider::getConnection();
+    $sql = 'INSERT INTO Projest SET user_id = ?, name_project = ?';
+    $values = [$user_id, $project];
+
+    $stmt = db_get_prepare_stmt($connection, $sql, $values);
+    mysqli_stmt_execute($stmt);
+}
+
 
 function regUser($email,$name,$password){
 
@@ -179,7 +211,7 @@ function repeatEmail($repeat_email){
 function logUser($email){
 
     $connection = DbConnectionProvider::getConnection();
-    $sql = "SELECT * FROM User WHERE email = '" . $email . "'";
+    $sql = "SELECT * FROM User WHERE email = '$email'";
     $res = mysqli_query($connection, $sql);
     $parameters = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : NULL;
 
