@@ -19,8 +19,7 @@ function include_template($name, $data) {
     return $result;
 };
 
-// случайное число для показа выполненных задач
-$show_complete_tasks = rand(0, 1);
+
 
 /**
  * Подсчитывает число задач для заданного проекта
@@ -228,6 +227,70 @@ function getUser($user_id){
     $parameters = [$user_id];
 
     return request($connection, $sql, $parameters);
+
+}
+
+function getTime($user_id, $project_id = null, $time){
+
+    $connection = DbConnectionProvider::getConnection();
+    if($time == 'today') {
+
+        $sql =  "SELECT name_task, file_task, deadline, status, user_id, project_id
+                FROM Task WHERE user_id = ? " . " AND DAY(deadline) = DAY(NOW())";
+        $parameters = [$user_id];
+
+        if($project_id != null){
+            $sql .= " AND project_id = ?";
+            $parameters[]= $project_id;
+        }
+        $res = request($connection, $sql, $parameters);
+    }
+    else if ($time == 'tomorrow') {
+        $sql =  "SELECT name_task, file_task, deadline, status, user_id, project_id
+                FROM Task WHERE user_id = ? " . " AND DAY(deadline) = DAY(DATE_ADD(NOW(), INTERVAL 1 DAY))";
+        $parameters = [$user_id];
+
+        if($project_id != null){
+            $sql .= " AND project_id = ?";
+            $parameters[]= $project_id;
+        }
+        $res = request($connection, $sql, $parameters);
+    }
+
+    else if ($time == 'overdue') {
+        $sql =  "SELECT name_task, file_task, deadline, status, user_id, project_id
+                FROM Task WHERE user_id = ? " . " AND deadline < NOW() ORDER BY deadline ASC";
+        $parameters = [$user_id];
+
+        if($project_id != null){
+            $sql .= " AND project_id = ?";
+            $parameters[]= $project_id;
+        }
+        $res = request($connection, $sql, $parameters);
+    }
+
+    return $res;
+}
+
+function getCompleted($task_id){
+
+    $connection = DbConnectionProvider::getConnection();
+    $sql = "SELECT * FROM Task WHERE id = ?";
+    $parameters = [$task_id];
+    $res = request($connection, $sql, $parameters);
+
+    if($res[0]['status']) {
+        $sql = "UPDATE Task SET status = 0 WHERE id = ?";
+         $parameters = [$task_id];
+
+    } else if (!$tasks[0]['status']) {
+        $sql = "UPDATE Task SET status = 1 WHERE id = ?";
+        $parameters = [$task_id];
+    }
+
+    $task = request($connection, $sql, $parameters);
+
+    return $task;
 
 }
 ?>
