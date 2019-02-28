@@ -21,7 +21,7 @@ if(isset($_GET['task_id']) && isset($_GET['check'])) {
     $task_id = intval($_GET['task_id']);
     $res = getCompleted($task_id);
     if ($res) {
-        header("Location: /590097-doingsdone/index.php");
+        header("Location: /index.php");
     }
 }
 

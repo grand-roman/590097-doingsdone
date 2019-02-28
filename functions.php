@@ -280,15 +280,15 @@ function getCompleted($task_id){
     $res = request($connection, $sql, $parameters);
 
     if($res[0]['status']) {
-        $sql = "UPDATE Task SET status = 0 WHERE id = ?";
+        $sql = "UPDATE Task SET status = FALSE WHERE id = ?";
          $parameters = [$task_id];
 
-    } else if (!$tasks[0]['status']) {
-        $sql = "UPDATE Task SET status = 1 WHERE id = ?";
+    } else if (!$res[0]['status']) {
+        $sql = "UPDATE Task SET status = TRUE WHERE id = ?";
         $parameters = [$task_id];
     }
 
-    $task = request($connection, $sql, $parameters);
+    $task = mysqli_query($connection, $sql);
 
     return $task;
 
