@@ -7,10 +7,6 @@ if (!empty($_SESSION)) {
 
 require_once("data.php");
 
-if(isset($_GET['time'])) {
-    $tasks=getTime($user_id, $project_id, $_GET['time']);
-}
-
 if(isset($_GET['show_completed']) && $_GET['show_completed']) {
     $show_complete_tasks = 1;
 } else {
@@ -23,6 +19,10 @@ if(isset($_GET['task_id']) && isset($_GET['check'])) {
     if ($res) {
         header("Location: /index.php");
     }
+}
+
+if(isset($_GET['time'])) {
+    $tasks=getTime($user_id, $project_id, $_GET['time']);
 }
 
 if($project_id === 0 || count($tasks) === 0) {
@@ -51,7 +51,6 @@ $layout_content = include_template("layout.php", [
 	$layout_content = include_template('guest.php', [
         'title' => 'Дела в порядке']);
 }
-print($layout_content);
 print($layout_content);
 
 ?>

@@ -10,9 +10,9 @@
                 <div class="tasks-controls">
                     <nav class="tasks-switch">
                         <a href="/" class="tasks-switch__item <?=(!isset($_GET['time']) ? "tasks-switch__item--active" : "");?> ">Все задачи</a>
-                        <a href="/index.php? time=today" class="tasks-switch__item <?=(isset($_GET['time']) && $_GET['time'] == "today" ? "tasks-switch__item--active" : "");?>">Повестка дня</a>
-                        <a href="/index.php? time=tomorrow" class="tasks-switch__item <?=(isset($_GET['time']) && $_GET['time'] == "tomorrow" ? "tasks-switch__item--active" : "");?>">Завтра</a>
-                        <a href="/index.php? time=overdue" class="tasks-switch__item <?=(isset($_GET['time']) && $_GET['time'] == "overdue" ? "tasks-switch__item--active" : "");?>">Просроченные</a>
+                        <a href="/index.php?time=today" class="tasks-switch__item <?=(isset($_GET['time']) && $_GET['time'] == "today" ? "tasks-switch__item--active" : "");?>">Повестка дня</a>
+                        <a href="/index.php?time=tomorrow" class="tasks-switch__item <?=(isset($_GET['time']) && $_GET['time'] == "tomorrow" ? "tasks-switch__item--active" : "");?>">Завтра</a>
+                        <a href="/index.php?time=overdue" class="tasks-switch__item <?=(isset($_GET['time']) && $_GET['time'] == "overdue" ? "tasks-switch__item--active" : "");?>">Просроченные</a>
                     </nav>
 
                     <label class="checkbox">

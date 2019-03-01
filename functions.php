@@ -119,7 +119,7 @@ function getProjects ($user_id){
 function getTasks($user_id, $project_id = null){
 
     $connection = DbConnectionProvider::getConnection();
-    $sql =  "SELECT name_task, file_task, deadline, status, user_id, project_id
+    $sql =  "SELECT id, name_task, file_task, deadline, status, user_id, project_id
             FROM Task WHERE user_id = ?";
     $parameters = [$user_id];
 
@@ -134,7 +134,7 @@ function getTasks($user_id, $project_id = null){
 function getAllTasks($user_id){
 
     $connection = DbConnectionProvider::getConnection();
-     $sql =  "SELECT name_task, file_task, deadline, status, user_id, project_id
+     $sql =  "SELECT id, name_task, file_task, deadline, status, user_id, project_id
             FROM Task WHERE user_id = ?";
     $parameters = [$user_id];
 
@@ -235,7 +235,7 @@ function getTime($user_id, $project_id = null, $time){
     $connection = DbConnectionProvider::getConnection();
     if($time == 'today') {
 
-        $sql =  "SELECT name_task, file_task, deadline, status, user_id, project_id
+        $sql =  "SELECT id, name_task, file_task, deadline, status, user_id, project_id
                 FROM Task WHERE user_id = ? " . " AND DAY(deadline) = DAY(NOW())";
         $parameters = [$user_id];
 
@@ -246,7 +246,7 @@ function getTime($user_id, $project_id = null, $time){
         $res = request($connection, $sql, $parameters);
     }
     else if ($time == 'tomorrow') {
-        $sql =  "SELECT name_task, file_task, deadline, status, user_id, project_id
+        $sql =  "SELECT id, name_task, file_task, deadline, status, user_id, project_id
                 FROM Task WHERE user_id = ? " . " AND DAY(deadline) = DAY(DATE_ADD(NOW(), INTERVAL 1 DAY))";
         $parameters = [$user_id];
 
@@ -258,7 +258,7 @@ function getTime($user_id, $project_id = null, $time){
     }
 
     else if ($time == 'overdue') {
-        $sql =  "SELECT name_task, file_task, deadline, status, user_id, project_id
+        $sql =  "SELECT id, name_task, file_task, deadline, status, user_id, project_id
                 FROM Task WHERE user_id = ? " . " AND deadline < NOW() ORDER BY deadline ASC";
         $parameters = [$user_id];
 
@@ -280,11 +280,11 @@ function getCompleted($task_id){
     $res = request($connection, $sql, $parameters);
 
     if($res[0]['status']) {
-        $sql = "UPDATE Task SET status = FALSE WHERE id = ?";
+        $sql = "UPDATE Task SET status = 1, done_at = NOW() WHERE id = ?";
          $parameters = [$task_id];
 
     } else if (!$res[0]['status']) {
-        $sql = "UPDATE Task SET status = TRUE WHERE id = ?";
+        $sql = "UPDATE Task SET status = 1, done_at = NOW() WHERE id = ?";
         $parameters = [$task_id];
     }
 
