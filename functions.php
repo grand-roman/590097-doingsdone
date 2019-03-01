@@ -131,8 +131,25 @@ function getProjects ($user_id){
 function getTasks($user_id, $project_id = null, $time){
 
     $connection = DbConnectionProvider::getConnection();
+    if($time == 'today') {
 
-    $sql =  "SELECT id, name_task, file_task, deadline, status, user_id, project_id
+        $filter =  " AND DAY(deadline) = DAY(NOW())";
+    }
+    else if ($time == 'tomorrow') {
+        $filter =  " AND DAY(deadline) = DAY(DATE_ADD(NOW(), INTERVAL 1 DAY))"; 
+    }
+
+    else if ($time == 'overdue') {
+        $filter =   " AND deadline < NOW() ORDER BY deadline ASC";
+
+    }
+
+    else {
+
+        $filter = " deadline "
+    }
+
+    $sql =  "SELECT id, name_task, file_task, " . $filter . ", status, user_id, project_id
             FROM Task WHERE user_id = ?";
     $parameters = [$user_id];
 
@@ -140,20 +157,6 @@ function getTasks($user_id, $project_id = null, $time){
         $sql .= " AND project_id = ?";
         $parameters[]= $project_id;
     }
-
-    if($time == 'today') {
-
-        $sql .=  " AND DAY(deadline) = DAY(NOW())";
-    }
-    else if ($time == 'tomorrow') {
-        $sql .=  " AND DAY(deadline) = DAY(DATE_ADD(NOW(), INTERVAL 1 DAY))"; 
-    }
-
-    else if ($time == 'overdue') {
-        $sql .=   " AND deadline < NOW() ORDER BY deadline ASC";
-
-    }
-
 
     return request($connection, $sql, $parameters);
 }
