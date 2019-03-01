@@ -128,9 +128,10 @@ function getProjects ($user_id){
  *
  * @return array результ SQL запроса
  */
-function getTasks($user_id, $project_id = null){
+function getTasks($user_id, $project_id = null, $time){
 
     $connection = DbConnectionProvider::getConnection();
+
     $sql =  "SELECT id, name_task, file_task, deadline, status, user_id, project_id
             FROM Task WHERE user_id = ?";
     $parameters = [$user_id];
@@ -139,6 +140,20 @@ function getTasks($user_id, $project_id = null){
         $sql .= " AND project_id = ?";
         $parameters[]= $project_id;
     }
+
+    if($time == 'today') {
+
+        $sql .=  " AND DAY(deadline) = DAY(NOW())";
+    }
+    else if ($time == 'tomorrow') {
+        $sql .=  " AND DAY(deadline) = DAY(DATE_ADD(NOW(), INTERVAL 1 DAY))"; 
+    }
+
+    else if ($time == 'overdue') {
+        $sql .=   " AND deadline < NOW() ORDER BY deadline ASC";
+
+    }
+
 
     return request($connection, $sql, $parameters);
 }
@@ -294,74 +309,20 @@ function getUser($user_id){
 
 }
 /**
- * //SQL-запрос для получения списка всех задач по филтру у текущего пользователя
- *
- * @param Int $user_id - id пользователя
- * @param Int $project_id - id проекта
- * @param String $time - id проекта
- *
- * @return array результ SQL запроса
- */
-function getTime($user_id, $project_id = null, $time){
-
-    $connection = DbConnectionProvider::getConnection();
-    if($time == 'today') {
-
-        $sql =  "SELECT id, name_task, file_task, deadline, status, user_id, project_id
-                FROM Task WHERE user_id = ? " . " AND DAY(deadline) = DAY(NOW())";
-        $parameters = [$user_id];
-
-        if($project_id != null){
-            $sql .= " AND project_id = ?";
-            $parameters[]= $project_id;
-        }
-        $res = request($connection, $sql, $parameters);
-    }
-    else if ($time == 'tomorrow') {
-        $sql =  "SELECT id, name_task, file_task, deadline, status, user_id, project_id
-                FROM Task WHERE user_id = ? " . " AND DAY(deadline) = DAY(DATE_ADD(NOW(), INTERVAL 1 DAY))";
-        $parameters = [$user_id];
-
-        if($project_id != null){
-            $sql .= " AND project_id = ?";
-            $parameters[]= $project_id;
-        }
-        $res = request($connection, $sql, $parameters);
-    }
-
-    else if ($time == 'overdue') {
-        $sql =  "SELECT id, name_task, file_task, deadline, status, user_id, project_id
-                FROM Task WHERE user_id = ? " . " AND deadline < NOW() ORDER BY deadline ASC";
-        $parameters = [$user_id];
-
-        if($project_id != null){
-            $sql .= " AND project_id = ?";
-            $parameters[]= $project_id;
-        }
-        $res = request($connection, $sql, $parameters);
-    }
-
-    return $res;
-}
-/**
  * //SQL-запрос для пометки задачи как выполненную
  *
  * @param Int $task_id - id пользователя
  *
  * @return array результ SQL запроса
  */
-function getCompleted($task_id){
+function getCompleted($task_id, $check){
 
     $connection = DbConnectionProvider::getConnection();
-    $sql = "SELECT * FROM Task WHERE id = ?";
-    $parameters = [$task_id];
-    $res = request($connection, $sql, $parameters);
-
-    if($res[0]['status']) {
+    if($check === 1) {
         $sql = "UPDATE Task SET status = 1, done_at = NOW() WHERE id = ?";
         $parameters = [$task_id];
 
-    } else if (!$res[0]['status']) {
+    } else {
         $sql = "UPDATE Task SET status = 0, done_at = NOW() WHERE id = ?";
         $parameters = [$task_id];
     }
