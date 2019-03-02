@@ -140,7 +140,7 @@ function getTasks($user_id, $project_id = null, $time){
         $sql .= " AND project_id = ?";
         $parameters[]= $project_id;
     }
-
+/*
     if($time == 'today') {
 
         $sql .=  " AND DAY(deadline) = DAY(NOW())";
@@ -154,7 +154,7 @@ function getTasks($user_id, $project_id = null, $time){
 
     }
 
-
+*/
     return request($connection, $sql, $parameters);
 }
 /**
@@ -318,7 +318,7 @@ function getUser($user_id){
 function getCompleted($task_id, $check){
 
     $connection = DbConnectionProvider::getConnection();
-    if($check === 1) {
+    if($check == '1') {
         $sql = "UPDATE Task SET status = 1, done_at = NOW() WHERE id = ?";
         $parameters = [$task_id];
 
@@ -331,5 +331,35 @@ function getCompleted($task_id, $check){
     $stmt = db_get_prepare_stmt($connection, $sql, $parameters);
     mysqli_stmt_execute($stmt);
 
+}
+
+
+function buildTimeFilterUrl($userID, $projectID, $filter) {
+    $connection = DbConnectionProvider::getConnection();
+
+    if ($projectID) {
+        $allSql = 'SELECT * FROM Task WHERE user_id = ? AND project_id = ?';
+    } else {
+        $allSql = 'SELECT * FROM Task WHERE user_id = ?';
+    }
+    $todaySql = $allSql . ' AND deadline = CURDATE()';
+    $tomorrowSql = $allSql . ' AND deadline = CURDATE() + 1';
+    $overdueSql = $allSql . ' AND deadline < CURDATE() AND status = 0';
+    $filters = [
+        'all' => $allSql,
+        'today' => $todaySql,
+        'tomorrow' => $tomorrowSql,
+        'overdue' => $overdueSql
+    ];
+
+    if ($projectID) {
+        $filteredTasks = request($connection, $filters[$filter], [$userID, $projectID]);
+    } else {
+        $filteredTasks = request($connection, $filters[$filter], [$userID]);
+    }
+
+     if ($filteredTasks) {
+        return $filteredTasks;
+    }
 }
 ?>

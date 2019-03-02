@@ -17,14 +17,11 @@ if(isset($_GET['task_id']) && isset($_GET['check'])) {
         header("Location: /index.php");
     }
 }
-
+/*
 if(isset($_GET['time'])) {
     $tasks=getTasks($user_id, $project_id, $_GET['time']);
 }
-else {
-    $tasks=getTasks($user_id, $project_id, null);
-}
-
+*/
  
 
 if($project_id === 0 || count($tasks) === 0) {
@@ -35,8 +32,7 @@ else {
 
 $page_content = include_template("index.php", [
     "tasks_with_information" => $tasks,
-    "show_complete_tasks" => $show_complete_tasks,
-    "project_id" => $project_id
+    "show_complete_tasks" => $show_complete_tasks
 ]);
 
 }
