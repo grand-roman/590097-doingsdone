@@ -342,9 +342,11 @@ function buildTimeFilterUrl($userID, $projectID, $filter) {
     } else {
         $allSql = 'SELECT * FROM Task WHERE user_id = ?';
     }
-    $todaySql = $allSql . ' AND deadline = CURDATE()';
-    $tomorrowSql = $allSql . ' AND deadline = CURDATE() + 1';
-    $overdueSql = $allSql . ' AND deadline < CURDATE() AND status = 0';
+
+    $todaySql = $allSql . " AND DAY(deadline) = DAY(NOW())";
+    $tomorrowSql = $allSql . " AND DAY(deadline) = DAY(DATE_ADD(NOW(), INTERVAL 1 DAY))";
+    $overdueSql = $allSql . " AND deadline < NOW() ORDER BY deadline ASC";
+
     $filters = [
         'all' => $allSql,
         'today' => $todaySql,
@@ -358,7 +360,7 @@ function buildTimeFilterUrl($userID, $projectID, $filter) {
         $filteredTasks = request($connection, $filters[$filter], [$userID]);
     }
 
-     if ($filteredTasks) {
+    if ($filteredTasks) {
         return $filteredTasks;
     }
 }
