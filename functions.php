@@ -140,21 +140,24 @@ function getTasks($user_id, $project_id = null, $time){
         $sql .= " AND project_id = ?";
         $parameters[]= $project_id;
     }
-/*
-    if($time == 'today') {
 
-        $sql .=  " AND DAY(deadline) = DAY(NOW())";
+    switch ($time) {
+        case 'today': {
+            $sql .=  " AND TO_DAYS(NOW()) - TO_DAYS(deadline) = 0";
+            break;
+        }
+        case 'tomorrow': {
+            $sql .=  " AND TO_DAYS(NOW()) + 1 - TO_DAYS(deadline) = 0";
+            break;
+        }
+        case 'overdue': {
+            $sql .=   " AND status = 0 AND TO_DAYS(NOW()) - TO_DAYS(deadline) > 0";
+            break;
+        }
+        default:
+            break;
     }
-    else if ($time == 'tomorrow') {
-        $sql .=  " AND DAY(deadline) = DAY(DATE_ADD(NOW(), INTERVAL 1 DAY))"; 
-    }
 
-    else if ($time == 'overdue') {
-        $sql .=   " AND deadline < NOW() ORDER BY deadline ASC";
-
-    }
-
-*/
     return request($connection, $sql, $parameters);
 }
 /**
@@ -333,7 +336,7 @@ function getCompleted($task_id, $check){
 
 }
 
-
+/*
 function buildTimeFilterUrl($userID, $projectID, $filter) {
     $connection = DbConnectionProvider::getConnection();
 
@@ -363,5 +366,5 @@ function buildTimeFilterUrl($userID, $projectID, $filter) {
     if ($filteredTasks) {
         return $filteredTasks;
     }
-}
+}*/
 ?>

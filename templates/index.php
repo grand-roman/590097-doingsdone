@@ -9,37 +9,10 @@
 
                 <div class="tasks-controls">
                     <nav class="tasks-switch">
-                                <a href="/index.php?filter=all" class="tasks-switch__item
-                                    <?php if (isset($_GET['filter']) && $_GET['filter'] === 'all'): ?>
-                                        tasks-switch__item--active
-                                    <?php endif; ?>">Все задачи</a>
-                                    <?php if (isset($_GET['filter']) && $_GET['filter'] === 'all' && isset($_SESSION['user'])): ?>
-                                        <?php $tasks = buildTimeFilterUrl($_SESSION['user']['id'], $_SESSION['project_id'], $_GET['filter']);?>
-                                    <?php endif; ?>
-
-                                <a href="/index.php?filter=today" class="tasks-switch__item
-                                    <?php if (isset($_GET['filter']) && $_GET['filter'] === 'today'): ?>
-                                        tasks-switch__item--active
-                                    <?php endif; ?>">Повестка дня</a>
-                                    <?php if (isset($_GET['filter']) && $_GET['filter'] === 'today' && isset($_SESSION['user'])): ?>
-                                        <?php $tasks = buildTimeFilterUrl($_SESSION['user']['id'], $_SESSION['project_id'], $_GET['filter']);?>
-                                    <?php endif; ?>
-
-                                <a href="/index.php?filter=tomorrow" class="tasks-switch__item
-                                    <?php if (isset($_GET['filter']) && $_GET['filter'] === 'tomorrow'): ?>
-                                        tasks-switch__item--active
-                                    <?php endif; ?>">Завтра</a>
-                                    <?php if (isset($_GET['filter']) && $_GET['filter'] === 'tomorrow' && isset($_SESSION['user'])): ?>
-                                        <?php $tasks = buildTimeFilterUrl($_SESSION['user']['id'], $_SESSION['project_id'], $_GET['filter']);?>
-                                    <?php endif; ?>
-
-                                <a href="/index.php?filter=overdue" class="tasks-switch__item
-                                    <?php if (isset($_GET['filter']) && $_GET['filter'] === 'overdue'): ?>
-                                        tasks-switch__item--active
-                                    <?php endif; ?>">Просроченные</a>
-                                    <?php if (isset($_GET['filter']) && $_GET['filter'] === 'overdue' && isset($_SESSION['user'])): ?>
-                                        <?php $tasks = buildTimeFilterUrl($_SESSION['user']['id'], $_SESSION['project_id'], $_GET['filter']);?>
-                                    <?php endif; ?>
+                      <a href="/" class="tasks-switch__item <?php if ($filter === ''): ?>tasks-switch__item--active <?php endif; ?>">Все задачи</a>
+                      <a href="/?filter=today" class="tasks-switch__item <?php if ($filter === 'today'): ?>tasks-switch__item--active <?php endif; ?>">Повестка дня</a>
+                      <a href="/?filter=tomorrow" class="tasks-switch__item <?php if ($filter === 'tomorrow'): ?>tasks-switch__item--active <?php endif; ?>">Завтра</a>
+                      <a href="/?filter=overdue" class="tasks-switch__item <?php if ($filter === 'overdue'): ?>tasks-switch__item--active <?php endif; ?>">Просроченные</a>
                     </nav>
 
                     <label class="checkbox">
