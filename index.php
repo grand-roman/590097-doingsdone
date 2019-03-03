@@ -12,16 +12,16 @@ $show_complete_tasks = isset($_GET['show_completed']) ? intval($_GET['show_compl
 
 if(isset($_GET['task_id']) && isset($_GET['check'])) {
     $task_id = intval($_GET['task_id']);
-    $res = getCompleted($task_id, $_GET['check']);
-    if ($res) {
+    $result = getCompleted($task_id, $_GET['check']);
+    if ($result) {
         header("Location: /index.php");
     }
 }
-/*
-if(isset($_GET['time'])) {
-    $tasks=getTasks($user_id, $project_id, $_GET['time']);
+
+if(isset($_GET['filter'])) {
+    $tasks=buildTimeFilterUrl($user_id, $project_id, $_GET['filter']);
 }
-*/
+
  
 
 if($project_id === 0 || count($tasks) === 0) {
@@ -32,7 +32,8 @@ else {
 
 $page_content = include_template("index.php", [
     "tasks_with_information" => $tasks,
-    "show_complete_tasks" => $show_complete_tasks
+    "show_complete_tasks" => $show_complete_tasks,
+    "project_id" => $project_id
 ]);
 
 }

@@ -344,7 +344,7 @@ function buildTimeFilterUrl($userID, $projectID, $filter) {
     }
 
     $todaySql = $allSql . " AND DAY(deadline) = DAY(NOW())";
-    $tomorrowSql = $allSql . " AND DAY(deadline) = DAY(DATE_ADD(NOW(), INTERVAL 1 DAY))";
+    $tomorrowSql = $allSql . " AND deadline = DATE_ADD(NOW(), INTERVAL 1 DAY)";
     $overdueSql = $allSql . " AND deadline < NOW() ORDER BY deadline ASC";
 
     $filters = [

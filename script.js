@@ -2,7 +2,7 @@
 
 var get_parameter_names = [
 'project_id',
-'time'
+'filter'
 ];
 
 var $checkbox = document.getElementsByClassName('show_completed');
