@@ -141,23 +141,25 @@ function getTasks($user_id, $project_id = null, $time){
         $parameters[]= $project_id;
     }
 
-    switch ($time) {
-        case 'today': {
-            $sql .=  " AND TO_DAYS(NOW()) - TO_DAYS(deadline) = 0";
-            break;
+    if($time != null){
+        switch ($time) {
+            case 'today': {
+                $sql .=  " AND TO_DAYS(NOW()) - TO_DAYS(deadline) = 0";
+                break;
+            }
+            case 'tomorrow': {
+                $sql .=  " AND TO_DAYS(NOW()) + 1 - TO_DAYS(deadline) = 0";
+                break;
+            }
+            case 'overdue': {
+                $sql .=   " AND status = 0 AND TO_DAYS(NOW()) - TO_DAYS(deadline) > 0";
+                break;
+            }
+            default:
+                break;
         }
-        case 'tomorrow': {
-            $sql .=  " AND TO_DAYS(NOW()) + 1 - TO_DAYS(deadline) = 0";
-            break;
-        }
-        case 'overdue': {
-            $sql .=   " AND status = 0 AND TO_DAYS(NOW()) - TO_DAYS(deadline) > 0";
-            break;
-        }
-        default:
-            break;
     }
-
+    
     return request($connection, $sql, $parameters);
 }
 /**

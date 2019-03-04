@@ -25,7 +25,8 @@ else {
 $page_content = include_template("index.php", [
     "tasks_with_information" => $tasks,
     "show_complete_tasks" => $show_complete_tasks,
-    "filter" => $filter
+    "filter" => $filter,
+    "project_id" => $project_id
 ]);
 
 }

@@ -7,7 +7,7 @@ $projects = getProjects ($user_id);
 
 $filter =  isset($_GET['filter']) ? $_GET['filter'] : '';
 
-$tasks=getTasks($user_id, $project_id, $filter);
+$tasks = getTasks($user_id, $project_id, $filter);
 
 $taskall = getAllTasks($user_id); 
 
