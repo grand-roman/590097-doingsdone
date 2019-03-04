@@ -1,18 +1,18 @@
 
  <h2 class="content__main-heading">Список задач</h2>
 
-                <form class="search-form" action="index.php" method="post">
-                    <input class="search-form__input" type="text" name="" value="" placeholder="Поиск по задачам">
+                <form class="search-form" action="index.php" method="get">
+                    <input class="search-form__input" type="text" name="search" value="" placeholder="Поиск по задачам">
 
                     <input class="search-form__submit" type="submit" name="" value="Искать">
                 </form>
 
                 <div class="tasks-controls">
                     <nav class="tasks-switch">
-                      <a href="/index/?project_id=<?=$project_id?>" class="tasks-switch__item <?php if ($filter === ''): ?>tasks-switch__item--active <?php endif; ?>">Все задачи</a>
-                      <a href="/index/?filter=today&project_id=<?=$project_id?>" class="tasks-switch__item <?php if ($filter === 'today'): ?>tasks-switch__item--active <?php endif; ?>">Повестка дня</a>
-                      <a href="/index/?filter=tomorrow&project_id=<?=$project_id?>" class="tasks-switch__item <?php if ($filter === 'tomorrow'): ?>tasks-switch__item--active <?php endif; ?>">Завтра</a>
-                      <a href="/index/?filter=overdue&project_id=<?=$project_id?>" class="tasks-switch__item <?php if ($filter === 'overdue'): ?>tasks-switch__item--active <?php endif; ?>">Просроченные</a>
+                      <a href="/index?project_id=<?=$project_id?>" class="tasks-switch__item <?php if ($filter === ''): ?>tasks-switch__item--active <?php endif; ?>">Все задачи</a>
+                      <a href="/index?filter=today&project_id=<?=$project_id?>" class="tasks-switch__item <?php if ($filter === 'today'): ?>tasks-switch__item--active <?php endif; ?>">Повестка дня</a>
+                      <a href="/index?filter=tomorrow&project_id=<?=$project_id?>" class="tasks-switch__item <?php if ($filter === 'tomorrow'): ?>tasks-switch__item--active <?php endif; ?>">Завтра</a>
+                      <a href="/index?filter=overdue&project_id=<?=$project_id?>" class="tasks-switch__item <?php if ($filter === 'overdue'): ?>tasks-switch__item--active <?php endif; ?>">Просроченные</a>
                     </nav>
 
                     <label class="checkbox">

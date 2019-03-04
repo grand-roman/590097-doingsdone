@@ -5,7 +5,19 @@ require_once("init.php");
 
 if (!empty($_SESSION)) {
 
-require_once("data.php");
+$project_id = isset($_GET['project_id']) ? (int)$_GET['project_id'] : null;
+
+$projects = getProjects ($user_id);
+
+$filter =  isset($_GET['filter']) ? $_GET['filter'] : '';
+
+$tasks = getTasks($user_id, $project_id, $filter);
+
+$taskall = getAllTasks($user_id); 
+
+$user = getUser($user_id);
+
+
 
 $show_complete_tasks = isset($_GET['show_completed']) ? intval($_GET['show_completed']) : 0;
 
@@ -14,6 +26,11 @@ if(isset($_GET['task_id']) && isset($_GET['check'])) {
     $task_id = intval($_GET['task_id']);
     $result = getCompleted($task_id, $_GET['check']);
     header("Location: /index.php");
+}
+
+if(isset($_GET['search'])) {
+
+    $tasks = searchTask($_GET['search']);
 }
 
 if($project_id === 0 || count($tasks) === 0) {

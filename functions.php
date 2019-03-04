@@ -338,6 +338,16 @@ function getCompleted($task_id, $check){
 
 }
 
+function searchTask ($search){
+
+    $connection = DbConnectionProvider::getConnection();
+    $resSearch = mysqli_real_escape_string($connection, $search);
+    $sql = "SELECT * FROM Task WHERE MATCH(taskSearch) AGAINST( ? IN BOOLEAN MODE)";
+    $parameters = [$resSearch];
+
+        return  request($connection, $sql, $parameters);
+}
+
 /*
 function buildTimeFilterUrl($userID, $projectID, $filter) {
     $connection = DbConnectionProvider::getConnection();

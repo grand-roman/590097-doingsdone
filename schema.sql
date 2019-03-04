@@ -33,4 +33,5 @@ CREATE TABLE Task (
 
 CREATE UNIQUE INDEX email ON User(email);
 CREATE INDEX getProject ON Project(name_project,user_id);
+CREATE FULLTEXT INDEX taskSearch ON Task(name_task);
 CREATE INDEX doneTask ON Task(user_id,project_id);

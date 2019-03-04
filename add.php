@@ -10,7 +10,14 @@ if (!empty($_SESSION)) {
 $errors_task = [];
 $task = [];
 
-require_once("data.php");
+
+$projects = getProjects ($user_id);
+
+$tasks = getTasks($user_id, $project_id, $filter);
+
+$taskall = getAllTasks($user_id); 
+
+$user = getUser($user_id);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
