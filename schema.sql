@@ -28,7 +28,8 @@ CREATE TABLE Task (
 	file_task VARCHAR(128),
 	project_id INT,
 	user_id INT NOT NULL,
-	status BOOLEAN DEFAULT FALSE
+	status BOOLEAN DEFAULT FALSE,
+	FULLTEXT (name_task)
 );
 
 CREATE UNIQUE INDEX email ON User(email);

@@ -53,5 +53,4 @@ $layout_content = include_template('layout.php', [
     'title' => 'Дела в порядке | Вход'
 ]);
 print($layout_content);
-
 ?>

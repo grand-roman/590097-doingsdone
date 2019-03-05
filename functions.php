@@ -19,8 +19,7 @@ function include_template($name, $data) {
     return $result;
 };
 
-// случайное число для показа выполненных задач
-$show_complete_tasks = rand(0, 1);
+
 
 /**
  * Подсчитывает число задач для заданного проекта
@@ -105,7 +104,13 @@ class DbConnectionProvider
     }
 }
 
-//SQL-запрос для получения списка проектов у текущего пользователя
+/**
+ * SQL-запрос для получения списка проектов у текущего пользователя
+ *
+ * @param int $user_id - id пользователя
+ *
+ * @return array результ SQL запроса
+ */
 function getProjects ($user_id){
 
     $connection = DbConnectionProvider::getConnection();
@@ -115,12 +120,19 @@ function getProjects ($user_id){
 
     return request($connection, $sql, $parameters);
 }
-
-//SQL-запрос для получения списка из всех задач у текущего пользователя
-function getTasks($user_id, $project_id = null){
+/**
+ * SQL-запрос для получения списка из всех задач на определенный проект у текущего пользователя
+ *
+ * @param int $user_id - id пользователя
+ * @param int $project_id - id проекта
+ *
+ * @return array результ SQL запроса
+ */
+function getTasks($user_id, $project_id = null, $time = null){
 
     $connection = DbConnectionProvider::getConnection();
-    $sql =  "SELECT name_task, file_task, deadline, status, user_id, project_id
+
+    $sql =  "SELECT id, name_task, file_task, deadline, status, user_id, project_id
             FROM Task WHERE user_id = ?";
     $parameters = [$user_id];
 
@@ -129,19 +141,53 @@ function getTasks($user_id, $project_id = null){
         $parameters[]= $project_id;
     }
 
+    if($time != null){
+        switch ($time) {
+            case 'today': {
+                $sql .=  " AND TO_DAYS(NOW()) - TO_DAYS(deadline) = 0";
+                break;
+            }
+            case 'tomorrow': {
+                $sql .=  " AND TO_DAYS(NOW()) + 1 - TO_DAYS(deadline) = 0";
+                break;
+            }
+            case 'overdue': {
+                $sql .=   " AND status = 0 AND TO_DAYS(NOW()) - TO_DAYS(deadline) > 0";
+                break;
+            }
+            default:
+                break;
+        }
+    }
+    
     return request($connection, $sql, $parameters);
 }
-
+/**
+ * SQL-запрос для получения списка из всех задач у текущего пользователя
+ *
+ * @param int $user_id - id пользователя
+ *
+ * @return array результ SQL запроса
+ */
 function getAllTasks($user_id){
 
     $connection = DbConnectionProvider::getConnection();
-     $sql =  "SELECT name_task, file_task, deadline, status, user_id, project_id
+     $sql =  "SELECT id, name_task, file_task, deadline, status, user_id, project_id
             FROM Task WHERE user_id = ?";
     $parameters = [$user_id];
 
     return request($connection, $sql, $parameters);
 }
-
+/**
+ * SQL-запрос для добавление задачи у текущего пользователя
+ *
+ * @param int $user_id - id пользователя
+ * @param string $name_task - id пользователя
+ * @param int $project_id - id проекта
+ * @param int $date- дата окончания проекта
+ * @param int $file - файл задачи
+ *
+ */
 function setTasks(int $user_id, string $name_task, int $project_id, ?string $date, ?string $file){
 
     $connection = DbConnectionProvider::getConnection();
@@ -170,7 +216,14 @@ function setTasks(int $user_id, string $name_task, int $project_id, ?string $dat
     $stmt = db_get_prepare_stmt($connection, $sql, $values);
     mysqli_stmt_execute($stmt);
 }
-
+/**
+ * SQL-запрос для получения проекта у пользователя
+ *
+ * @param int $user_id - id пользователя
+ * @param String $project - имя проекта
+ *
+ * @return array результ SQL запроса
+ */
 function checkProject(int $user_id, string $project){
 
     $connection = DbConnectionProvider::getConnection();
@@ -179,7 +232,13 @@ function checkProject(int $user_id, string $project){
 
     return $res;
 }
-
+/**
+ * SQL-запрос для добавление проекта у текущего пользователя
+ *
+ * @param int $user_id - id пользователя
+ * @param String $project - имя проекта
+ *
+ */
 function setProject(int $user_id, string $project){
 
     $connection = DbConnectionProvider::getConnection();
@@ -190,7 +249,13 @@ function setProject(int $user_id, string $project){
     mysqli_stmt_execute($stmt);
 }
 
-
+/**
+ * SQL-запрос для регестрации пользователя
+ *
+ * @param String $email - почта пользователя
+ * @param String $name - имя пользователя
+ * @param String $password - пароль пользователя
+ */
 function regUser($email,$name,$password){
 
     $connection = DbConnectionProvider::getConnection();
@@ -200,7 +265,13 @@ function regUser($email,$name,$password){
     $stmt = db_get_prepare_stmt($connection, $sql, $values);
     mysqli_stmt_execute($stmt);
 }
-
+/**
+ * SQL-запрос для получения почты пользователя, чтоыб првоерить сущетсвует ли такой пользователь 
+ *
+ * @param String $repeat_email - почта пользователя
+ *
+ * @return array результ SQL запроса
+ */
 function repeatEmail($repeat_email){
 
     $connection = DbConnectionProvider::getConnection();
@@ -209,7 +280,13 @@ function repeatEmail($repeat_email){
 
     return  request($connection, $sql, $parameters);
 }
-
+/**
+ * SQL-запрос для получения почты пользователя, чтоыб првоерить правильно ли вел пользователь данные 
+ *
+ * @param String $repeat_email - почта пользователя
+ *
+ * @return array результ SQL запроса
+ */
 function logUser($email){
 
     $connection = DbConnectionProvider::getConnection();
@@ -219,7 +296,13 @@ function logUser($email){
 
     return $parameters;
 }
-
+/**
+ * SQL-запрос для получения данных пользователя
+ *
+ * @param int $user_id - id пользователя
+ *
+ * @return array результ SQL запроса
+ */
 function getUser($user_id){
 
     $connection = DbConnectionProvider::getConnection();
@@ -229,5 +312,39 @@ function getUser($user_id){
 
     return request($connection, $sql, $parameters);
 
+}
+/**
+ * SQL-запрос для пометки задачи как выполненную
+ *
+ * @param int $task_id - id пользователя
+ *
+ * @return array результ SQL запроса
+ */
+function getCompleted($task_id, $check){
+
+    $connection = DbConnectionProvider::getConnection();
+    if($check == '1') {
+        $sql = "UPDATE Task SET status = 1, done_at = NOW() WHERE id = ?";
+        $parameters = [$task_id];
+
+    } else {
+        $sql = "UPDATE Task SET status = 0, done_at = NOW() WHERE id = ?";
+        $parameters = [$task_id];
+    }
+
+    
+    $stmt = db_get_prepare_stmt($connection, $sql, $parameters);
+    mysqli_stmt_execute($stmt);
+
+}
+
+function searchTask ($search){
+
+    $connection = DbConnectionProvider::getConnection();
+    $resSearch = mysqli_real_escape_string($connection, $search);
+    $sql = "SELECT * FROM Task WHERE MATCH(name_task) AGAINST( ? )";
+    $parameters = [$resSearch];
+
+        return  request($connection, $sql, $parameters);
 }
 ?>

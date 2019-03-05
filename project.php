@@ -8,7 +8,10 @@ if (!empty($_SESSION)) {
 $errors_project = [];
 $project = [];
 
-require_once("data.php");
+$projects = getProjects ($user_id);
+$tasks = getTasks($user_id, null, null);
+$taskall = getAllTasks($user_id); 
+$user = getUser($user_id);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
