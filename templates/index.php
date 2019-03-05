@@ -9,10 +9,10 @@
 
                 <div class="tasks-controls">
                     <nav class="tasks-switch">
-                      <a href="/index?<?php if(isset($project_id)):?>&project_id=<?=$project_id?><?php endif; ?>" class="tasks-switch__item <?php if ($filter === ''): ?>tasks-switch__item--active <?php endif; ?>">Все задачи</a>
-                      <a href="/index?filter=today<?php if(isset($project_id)):?>&project_id=<?=$project_id?><?php endif; ?>" class="tasks-switch__item <?php if ($filter === 'today'): ?>tasks-switch__item--active <?php endif; ?>">Повестка дня</a>
-                      <a href="/index?filter=tomorrow<?php if(isset($project_id)):?>&project_id=<?=$project_id?><?php endif; ?>" class="tasks-switch__item <?php if ($filter === 'tomorrow'): ?>tasks-switch__item--active <?php endif; ?>">Завтра</a>
-                      <a href="/index?filter=overdue<?php if(isset($project_id)):?>&project_id=<?=$project_id?><?php endif; ?>" class="tasks-switch__item <?php if ($filter === 'overdue'): ?>tasks-switch__item--active <?php endif; ?>">Просроченные</a>
+                      <a href="/index.php?<?php if(isset($project_id)):?>&project_id=<?=$project_id?><?php endif; ?>" class="tasks-switch__item <?php if ($filter === ''): ?>tasks-switch__item--active <?php endif; ?>">Все задачи</a>
+                      <a href="index.php?filter=today<?php if(isset($project_id)):?>&project_id=<?=$project_id?><?php endif; ?>" class="tasks-switch__item <?php if ($filter === 'today'): ?>tasks-switch__item--active <?php endif; ?>">Повестка дня</a>
+                      <a href="/index.php?filter=tomorrow<?php if(isset($project_id)):?>&project_id=<?=$project_id?><?php endif; ?>" class="tasks-switch__item <?php if ($filter === 'tomorrow'): ?>tasks-switch__item--active <?php endif; ?>">Завтра</a>
+                      <a href="/index.php?filter=overdue<?php if(isset($project_id)):?>&project_id=<?=$project_id?><?php endif; ?>" class="tasks-switch__item <?php if ($filter === 'overdue'): ?>tasks-switch__item--active <?php endif; ?>">Просроченные</a>
                     </nav>
 
                     <label class="checkbox">
