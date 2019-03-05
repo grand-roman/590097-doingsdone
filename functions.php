@@ -107,7 +107,7 @@ class DbConnectionProvider
 /**
  * SQL-запрос для получения списка проектов у текущего пользователя
  *
- * @param Int $user_id - id пользователя
+ * @param int $user_id - id пользователя
  *
  * @return array результ SQL запроса
  */
@@ -121,14 +121,14 @@ function getProjects ($user_id){
     return request($connection, $sql, $parameters);
 }
 /**
- * //SQL-запрос для получения списка из всех задач на определенный проект у текущего пользователя
+ * SQL-запрос для получения списка из всех задач на определенный проект у текущего пользователя
  *
- * @param Int $user_id - id пользователя
- * @param Int $project_id - id проекта
+ * @param int $user_id - id пользователя
+ * @param int $project_id - id проекта
  *
  * @return array результ SQL запроса
  */
-function getTasks($user_id, $project_id = null, $time){
+function getTasks($user_id, $project_id = null, $time = null){
 
     $connection = DbConnectionProvider::getConnection();
 
@@ -163,9 +163,9 @@ function getTasks($user_id, $project_id = null, $time){
     return request($connection, $sql, $parameters);
 }
 /**
- * //SQL-запрос для получения списка из всех задач у текущего пользователя
+ * SQL-запрос для получения списка из всех задач у текущего пользователя
  *
- * @param Int $user_id - id пользователя
+ * @param int $user_id - id пользователя
  *
  * @return array результ SQL запроса
  */
@@ -179,13 +179,13 @@ function getAllTasks($user_id){
     return request($connection, $sql, $parameters);
 }
 /**
- * //SQL-запрос для добавление задачи у текущего пользователя
+ * SQL-запрос для добавление задачи у текущего пользователя
  *
- * @param Int $user_id - id пользователя
+ * @param int $user_id - id пользователя
  * @param string $name_task - id пользователя
- * @param Int $project_id - id проекта
- * @param Int $date- дата окончания проекта
- * @param Int $file - файл задачи
+ * @param int $project_id - id проекта
+ * @param int $date- дата окончания проекта
+ * @param int $file - файл задачи
  *
  */
 function setTasks(int $user_id, string $name_task, int $project_id, ?string $date, ?string $file){
@@ -217,9 +217,9 @@ function setTasks(int $user_id, string $name_task, int $project_id, ?string $dat
     mysqli_stmt_execute($stmt);
 }
 /**
- * //SQL-запрос для получения проекта у пользователя
+ * SQL-запрос для получения проекта у пользователя
  *
- * @param Int $user_id - id пользователя
+ * @param int $user_id - id пользователя
  * @param String $project - имя проекта
  *
  * @return array результ SQL запроса
@@ -233,9 +233,9 @@ function checkProject(int $user_id, string $project){
     return $res;
 }
 /**
- * //SQL-запрос для добавление проекта у текущего пользователя
+ * SQL-запрос для добавление проекта у текущего пользователя
  *
- * @param Int $user_id - id пользователя
+ * @param int $user_id - id пользователя
  * @param String $project - имя проекта
  *
  */
@@ -250,7 +250,7 @@ function setProject(int $user_id, string $project){
 }
 
 /**
- * //SQL-запрос для регестрации пользователя
+ * SQL-запрос для регестрации пользователя
  *
  * @param String $email - почта пользователя
  * @param String $name - имя пользователя
@@ -266,7 +266,7 @@ function regUser($email,$name,$password){
     mysqli_stmt_execute($stmt);
 }
 /**
- * //SQL-запрос для получения почты пользователя, чтоыб првоерить сущетсвует ли такой пользователь 
+ * SQL-запрос для получения почты пользователя, чтоыб првоерить сущетсвует ли такой пользователь 
  *
  * @param String $repeat_email - почта пользователя
  *
@@ -281,7 +281,7 @@ function repeatEmail($repeat_email){
     return  request($connection, $sql, $parameters);
 }
 /**
-* //SQL-запрос для получения почты пользователя, чтоыб првоерить правильно ли вел пользователь данные 
+ * SQL-запрос для получения почты пользователя, чтоыб првоерить правильно ли вел пользователь данные 
  *
  * @param String $repeat_email - почта пользователя
  *
@@ -297,9 +297,9 @@ function logUser($email){
     return $parameters;
 }
 /**
- * //SQL-запрос для получения данных пользователя
+ * SQL-запрос для получения данных пользователя
  *
- * @param Int $user_id - id пользователя
+ * @param int $user_id - id пользователя
  *
  * @return array результ SQL запроса
  */
@@ -314,9 +314,9 @@ function getUser($user_id){
 
 }
 /**
- * //SQL-запрос для пометки задачи как выполненную
+ * SQL-запрос для пометки задачи как выполненную
  *
- * @param Int $task_id - id пользователя
+ * @param int $task_id - id пользователя
  *
  * @return array результ SQL запроса
  */
@@ -342,41 +342,9 @@ function searchTask ($search){
 
     $connection = DbConnectionProvider::getConnection();
     $resSearch = mysqli_real_escape_string($connection, $search);
-    $sql = "SELECT * FROM Task WHERE MATCH(taskSearch) AGAINST( ? IN BOOLEAN MODE)";
+    $sql = "SELECT * FROM Task WHERE MATCH(name_task) AGAINST( ? )";
     $parameters = [$resSearch];
 
         return  request($connection, $sql, $parameters);
 }
-
-/*
-function buildTimeFilterUrl($userID, $projectID, $filter) {
-    $connection = DbConnectionProvider::getConnection();
-
-    if ($projectID) {
-        $allSql = 'SELECT * FROM Task WHERE user_id = ? AND project_id = ?';
-    } else {
-        $allSql = 'SELECT * FROM Task WHERE user_id = ?';
-    }
-
-    $todaySql = $allSql . " AND DAY(deadline) = DAY(NOW())";
-    $tomorrowSql = $allSql . " AND deadline = DATE_ADD(NOW(), INTERVAL 1 DAY)";
-    $overdueSql = $allSql . " AND deadline < NOW() ORDER BY deadline ASC";
-
-    $filters = [
-        'all' => $allSql,
-        'today' => $todaySql,
-        'tomorrow' => $tomorrowSql,
-        'overdue' => $overdueSql
-    ];
-
-    if ($projectID) {
-        $filteredTasks = request($connection, $filters[$filter], [$userID, $projectID]);
-    } else {
-        $filteredTasks = request($connection, $filters[$filter], [$userID]);
-    }
-
-    if ($filteredTasks) {
-        return $filteredTasks;
-    }
-}*/
 ?>

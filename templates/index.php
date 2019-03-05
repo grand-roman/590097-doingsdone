@@ -9,10 +9,10 @@
 
                 <div class="tasks-controls">
                     <nav class="tasks-switch">
-                      <a href="/index?project_id=<?=$project_id?>" class="tasks-switch__item <?php if ($filter === ''): ?>tasks-switch__item--active <?php endif; ?>">Все задачи</a>
-                      <a href="/index?filter=today&project_id=<?=$project_id?>" class="tasks-switch__item <?php if ($filter === 'today'): ?>tasks-switch__item--active <?php endif; ?>">Повестка дня</a>
-                      <a href="/index?filter=tomorrow&project_id=<?=$project_id?>" class="tasks-switch__item <?php if ($filter === 'tomorrow'): ?>tasks-switch__item--active <?php endif; ?>">Завтра</a>
-                      <a href="/index?filter=overdue&project_id=<?=$project_id?>" class="tasks-switch__item <?php if ($filter === 'overdue'): ?>tasks-switch__item--active <?php endif; ?>">Просроченные</a>
+                      <a href="/index?<?php if(isset($project_id)):?>&project_id=<?=$project_id?><?php endif; ?>" class="tasks-switch__item <?php if ($filter === ''): ?>tasks-switch__item--active <?php endif; ?>">Все задачи</a>
+                      <a href="/index?filter=today<?php if(isset($project_id)):?>&project_id=<?=$project_id?><?php endif; ?>" class="tasks-switch__item <?php if ($filter === 'today'): ?>tasks-switch__item--active <?php endif; ?>">Повестка дня</a>
+                      <a href="/index?filter=tomorrow<?php if(isset($project_id)):?>&project_id=<?=$project_id?><?php endif; ?>" class="tasks-switch__item <?php if ($filter === 'tomorrow'): ?>tasks-switch__item--active <?php endif; ?>">Завтра</a>
+                      <a href="/index?filter=overdue<?php if(isset($project_id)):?>&project_id=<?=$project_id?><?php endif; ?>" class="tasks-switch__item <?php if ($filter === 'overdue'): ?>tasks-switch__item--active <?php endif; ?>">Просроченные</a>
                     </nav>
 
                     <label class="checkbox">
@@ -28,7 +28,7 @@
                                 <tr class="tasks__item task<?= Task_Important($task) ? " task--important" : '';?>">
                                 <td class="task__select">
                                     <label class="checkbox task__checkbox">
-                                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="<?=$task['id'];?>">
+                                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" <?php if (isset($task['id'])): ?> value="<?=$task['id'];?><?php endif; ?>">
                                         <span class="checkbox__text"><?php if (isset($task["name_task"])): ?> <?= strip_tags($task["name_task"]);  ?> <?php endif; ?></span>
                                     </label>
                                 </td>
@@ -46,7 +46,7 @@
                                 <tr class="tasks__item task task--completed">
                                     <td class="task__select">
                                         <label class="checkbox task__checkbox">
-                                            <input class="checkbox__input visually-hidden" type="checkbox" value="<?=$task['id'];?>">
+                                            <input class="checkbox__input visually-hidden" type="checkbox" <?php if (isset($task['id'])): ?> value="<?=$task['id'];?><?php endif; ?>">
                                             <span class="checkbox__text"><?php if (isset($task["name_task"])): ?> <?= strip_tags($task["name_task"]);  ?> <?php endif; ?></span>
                                         </label>
                                     </td>

@@ -10,10 +10,9 @@ if (!empty($_SESSION)) {
 $errors_task = [];
 $task = [];
 
-
 $projects = getProjects ($user_id);
 
-$tasks = getTasks($user_id, $project_id, $filter);
+$tasks = getTasks($user_id, null, null);
 
 $taskall = getAllTasks($user_id); 
 

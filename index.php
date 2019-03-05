@@ -33,8 +33,9 @@ if(isset($_GET['search'])) {
     $tasks = searchTask($_GET['search']);
 }
 
+
 if($project_id === 0 || count($tasks) === 0) {
-	$page_content = "<p>Ничего не найдено</p>";
+	$page_content = "<p>Ничего не найдено по вашему запросу</p>";
 	http_response_code(404);
 }
 else {

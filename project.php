@@ -9,7 +9,7 @@ $errors_project = [];
 $project = [];
 
 $projects = getProjects ($user_id);
-$tasks = getTasks($user_id, $project_id, $filter);
+$tasks = getTasks($user_id, null, null);
 $taskall = getAllTasks($user_id); 
 $user = getUser($user_id);
 

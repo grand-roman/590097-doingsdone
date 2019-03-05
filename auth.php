@@ -1,7 +1,5 @@
 <?php
 
-if (!empty($_SESSION)) {
-
 require_once('init.php');
 require_once('functions.php');
 error_reporting(E_ALL);
@@ -55,7 +53,4 @@ $layout_content = include_template('layout.php', [
     'title' => 'Дела в порядке | Вход'
 ]);
 print($layout_content);
-
-}
-
 ?>
