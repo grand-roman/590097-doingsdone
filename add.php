@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
   }
 
-  if(!empty($task['date']) && strtotime($task['date']) <= time())
+  if(!empty($task['date']) && strtotime($task['date']) < time())
   {
 
     $errors_task['date'] = 'Дата должна быть больше текущей';

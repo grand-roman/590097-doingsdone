@@ -53,6 +53,8 @@ function Task_Important ($task){
     {
         return true;
     }
+
+    return false;
 }
 
 /**
@@ -125,6 +127,7 @@ function getProjects ($user_id){
  *
  * @param int $user_id - id пользователя
  * @param int $project_id - id проекта
+ * @param int $time - фильтр задач
  *
  * @return array результ SQL запроса
  */
@@ -222,12 +225,14 @@ function setTasks(int $user_id, string $name_task, int $project_id, ?string $dat
  * @param int $user_id - id пользователя
  * @param String $project - имя проекта
  *
- * @return array результ SQL запроса
+ * @return string результ SQL запроса
  */
 function checkProject(int $user_id, string $project){
 
     $connection = DbConnectionProvider::getConnection();
-    $sql = "SELECT name_project FROM Project WHERE name_project = '" . $project ."'AND user_id = ' " . $user_id . "' LIMIT 1";
+    $resuser = mysqli_real_escape_string($connection, $user_id);
+    $resproject = mysqli_real_escape_string($connection, $project);
+    $sql = "SELECT name_project FROM Project WHERE name_project = '" . $resproject ."'AND user_id = ' " . $resuser . "' LIMIT 1";
     $res = mysqli_query($connection, $sql);
 
     return $res;
@@ -283,14 +288,15 @@ function repeatEmail($repeat_email){
 /**
  * SQL-запрос для получения почты пользователя, чтоыб првоерить правильно ли вел пользователь данные 
  *
- * @param String $repeat_email - почта пользователя
+ * @param String $email - почта пользователя
  *
  * @return array результ SQL запроса
  */
 function logUser($email){
 
     $connection = DbConnectionProvider::getConnection();
-    $sql = "SELECT * FROM User WHERE email = '". $email ."'";
+    $resemail = mysqli_real_escape_string($connection, $email);
+    $sql = "SELECT * FROM User WHERE email = '". $resemail ."'";
     $res = mysqli_query($connection, $sql);
     $parameters = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : NULL;
 
@@ -323,7 +329,7 @@ function getUser($user_id){
 function getCompleted($task_id, $check){
 
     $connection = DbConnectionProvider::getConnection();
-    if($check == '1') {
+    if($check === '1') {
         $sql = "UPDATE Task SET status = 1, done_at = NOW() WHERE id = ?";
         $parameters = [$task_id];
 
