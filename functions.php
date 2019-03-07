@@ -227,7 +227,9 @@ function setTasks(int $user_id, string $name_task, int $project_id, ?string $dat
 function checkProject(int $user_id, string $project){
 
     $connection = DbConnectionProvider::getConnection();
-    $sql = "SELECT name_project FROM Project WHERE name_project = '" . $project ."'AND user_id = ' " . $user_id . "' LIMIT 1";
+    $resuser = mysqli_real_escape_string($connection, user_id);
+    $resproject = mysqli_real_escape_string($connection, $project);
+    $sql = "SELECT name_project FROM Project WHERE name_project = '" . $resproject ."'AND user_id = ' " . $resuser . "' LIMIT 1";
     $res = mysqli_query($connection, $sql);
 
     return $res;
@@ -290,7 +292,8 @@ function repeatEmail($repeat_email){
 function logUser($email){
 
     $connection = DbConnectionProvider::getConnection();
-    $sql = "SELECT * FROM User WHERE email = '". $email ."'";
+    $resemail = mysqli_real_escape_string($connection, $email);
+    $sql = "SELECT * FROM User WHERE email = '". $resemail ."'";
     $res = mysqli_query($connection, $sql);
     $parameters = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : NULL;
 
