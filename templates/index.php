@@ -10,7 +10,7 @@
                 <div class="tasks-controls">
                     <nav class="tasks-switch">
                       <a href="/index.php<?php if(isset($project_id)):?>?project_id=<?=$project_id?><?php endif; ?>" class="tasks-switch__item <?php if ($filter === ''): ?>tasks-switch__item--active <?php endif; ?>">Все задачи</a>
-                      <a href="index.php?filter=today<?php if(isset($project_id)):?>&project_id=<?=$project_id?><?php endif; ?>" class="tasks-switch__item <?php if ($filter === 'today'): ?>tasks-switch__item--active <?php endif; ?>">Повестка дня</a>
+                      <a href="/index.php?filter=today<?php if(isset($project_id)):?>&project_id=<?=$project_id?><?php endif; ?>" class="tasks-switch__item <?php if ($filter === 'today'): ?>tasks-switch__item--active <?php endif; ?>">Повестка дня</a>
                       <a href="/index.php?filter=tomorrow<?php if(isset($project_id)):?>&project_id=<?=$project_id?><?php endif; ?>" class="tasks-switch__item <?php if ($filter === 'tomorrow'): ?>tasks-switch__item--active <?php endif; ?>">Завтра</a>
                       <a href="/index.php?filter=overdue<?php if(isset($project_id)):?>&project_id=<?=$project_id?><?php endif; ?>" class="tasks-switch__item <?php if ($filter === 'overdue'): ?>tasks-switch__item--active <?php endif; ?>">Просроченные</a>
                     </nav>
@@ -35,7 +35,7 @@
 
                                 <td class="task__file">
                                     <?php if (isset($task["file_task"])): ?>
-                                        <a class="download-link" href="<?=$task["file_task"];?>" target="_blank"> 
+                                            <a class="<?= ($task['file_task'] ? "download-link" : ""); ?>" href="uploads/<?= $task['file_task']; ?>" target="_blank"> 
                                             <?= strip_tags($task["file_task"]);  ?> <?php endif; ?></a>
                                 </td>
 

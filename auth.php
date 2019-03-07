@@ -44,7 +44,7 @@ $auth_content = include_template('auth.php', [
 ]);
 
 
-$layout_content = include_template('layout.php', [
+$layout_content = include_template('auth-layout.php', [
     'content' => $auth_content,
     'tasks_with_information' => [],
     'tasks_all' => [],
