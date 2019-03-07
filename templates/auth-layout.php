@@ -19,7 +19,7 @@
         </a>
 
         <div class="main-header__side">
-          <a class="main-header__side-item button button--transparent" href="auth.php">Войти</a>
+          <a class="main-header__side-item button button--transparent" href="reg.php">Зарегистрироваться</a>
         </div>
       </header>
 
@@ -27,7 +27,7 @@
         <section class="content__side">
           <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
 
-          <a class="button button--transparent content__side-button" href="auth.php">Войти</a>
+          <a class="button button--transparent content__side-button" href="reg.php">Зарегистрироваться</a>
         </section>
 
         <main class="content__main">

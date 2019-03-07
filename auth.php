@@ -13,6 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_log = $_POST;
     $req_fields = ['email', 'password'];
 
+    if (isset($user_log['email']) && !filter_var($user_log['email'], FILTER_VALIDATE_EMAIL)) {
+        $errors_log['email'] = "E-mail введён некорректно";
+    }
+
     foreach ($req_fields as $required_field) {
         if (empty($user_log[$required_field])) {
             $errors_log[$required_field] = 'Это поле надо заполнить';
@@ -44,7 +48,7 @@ $auth_content = include_template('auth.php', [
 ]);
 
 
-$layout_content = include_template('layout.php', [
+$layout_content = include_template('auth-layout.php', [
     'content' => $auth_content,
     'tasks_with_information' => [],
     'tasks_all' => [],
