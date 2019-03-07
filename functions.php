@@ -227,7 +227,7 @@ function setTasks(int $user_id, string $name_task, int $project_id, ?string $dat
 function checkProject(int $user_id, string $project){
 
     $connection = DbConnectionProvider::getConnection();
-    $resuser = mysqli_real_escape_string($connection, user_id);
+    $resuser = mysqli_real_escape_string($connection, $user_id);
     $resproject = mysqli_real_escape_string($connection, $project);
     $sql = "SELECT name_project FROM Project WHERE name_project = '" . $resproject ."'AND user_id = ' " . $resuser . "' LIMIT 1";
     $res = mysqli_query($connection, $sql);
