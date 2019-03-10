@@ -292,7 +292,7 @@ function repeatEmail($repeat_email){
 /**
  * SQL-запрос для получения почты пользователя, чтоыб првоерить правильно ли вел пользователь данные 
  *
- * @param string $repeat_email - почта пользователя
+ * @param string $email - почта пользователя
  *
  * @return array результ SQL запроса | null
  */
@@ -338,7 +338,7 @@ function getCompleted($task_id, $check){
         $parameters = [$task_id];
 
     } else {
-        $sql = "UPDATE Task SET status = 0, done_at = NULL() WHERE id = ?";
+        $sql = "UPDATE Task SET status = 0, done_at = NULL WHERE id = ?";
         $parameters = [$task_id];
     }
 
