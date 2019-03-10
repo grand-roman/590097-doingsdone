@@ -2,6 +2,11 @@
 require_once("mysql_helper.php");
 error_reporting(E_ALL);
 
+/**
+ * @param $name
+ * @param $data
+ * @return false|string
+ */
 function include_template($name, $data) {
     $name = "templates/" . $name;
     $result = '';
@@ -62,9 +67,8 @@ function Task_Important ($task){
  * @param string $sql SQL запрос с плейсхолдерами вместо значений
  * @param array $data Данные для вставки на место плейсхолдеров
  *
- * @return array результ SQL запроса
+ * @return array результ SQL запроса | null
  */
-
 function request ($link, $sql, $data = []) {
  $stmt = db_get_prepare_stmt($link, $sql, $data);
     mysqli_stmt_execute($stmt);
@@ -81,7 +85,9 @@ function request ($link, $sql, $data = []) {
     }
 }
 
-
+/**
+ * Class DbConnectionProvider
+ */
 class DbConnectionProvider
 {
     protected static $connection;
@@ -124,7 +130,8 @@ function getProjects ($user_id){
  * SQL-запрос для получения списка из всех задач на определенный проект у текущего пользователя
  *
  * @param int $user_id - id пользователя
- * @param int $project_id - id проекта
+ * @param int | null $project_id - id проекта
+ * @param string | null $time - выбор данного филтра
  *
  * @return array результ SQL запроса
  */
@@ -184,8 +191,8 @@ function getAllTasks($user_id){
  * @param int $user_id - id пользователя
  * @param string $name_task - id пользователя
  * @param int $project_id - id проекта
- * @param int $date- дата окончания проекта
- * @param int $file - файл задачи
+ * @param string|null $date - дата окончания проекта
+ * @param string|null $file - файл задачи
  *
  */
 function setTasks(int $user_id, string $name_task, int $project_id, ?string $date, ?string $file){
@@ -220,9 +227,9 @@ function setTasks(int $user_id, string $name_task, int $project_id, ?string $dat
  * SQL-запрос для получения проекта у пользователя
  *
  * @param int $user_id - id пользователя
- * @param String $project - имя проекта
+ * @param string $project - имя проекта
  *
- * @return array результ SQL запроса
+ * @return bool|mysqli_result
  */
 function checkProject(int $user_id, string $project){
 
@@ -238,7 +245,7 @@ function checkProject(int $user_id, string $project){
  * SQL-запрос для добавление проекта у текущего пользователя
  *
  * @param int $user_id - id пользователя
- * @param String $project - имя проекта
+ * @param string $project - имя проекта
  *
  */
 function setProject(int $user_id, string $project){
@@ -254,9 +261,9 @@ function setProject(int $user_id, string $project){
 /**
  * SQL-запрос для регестрации пользователя
  *
- * @param String $email - почта пользователя
- * @param String $name - имя пользователя
- * @param String $password - пароль пользователя
+ * @param string $email - почта пользователя
+ * @param string $name - имя пользователя
+ * @param string $password - пароль пользователя
  */
 function regUser($email,$name,$password){
 
@@ -270,7 +277,7 @@ function regUser($email,$name,$password){
 /**
  * SQL-запрос для получения почты пользователя, чтоыб првоерить сущетсвует ли такой пользователь 
  *
- * @param String $repeat_email - почта пользователя
+ * @param string $repeat_email - почта пользователя
  *
  * @return array результ SQL запроса
  */
@@ -285,9 +292,9 @@ function repeatEmail($repeat_email){
 /**
  * SQL-запрос для получения почты пользователя, чтоыб првоерить правильно ли вел пользователь данные 
  *
- * @param String $repeat_email - почта пользователя
+ * @param string $repeat_email - почта пользователя
  *
- * @return array результ SQL запроса
+ * @return array результ SQL запроса | null
  */
 function logUser($email){
 
@@ -321,17 +328,17 @@ function getUser($user_id){
  *
  * @param int $task_id - id пользователя
  *
- * @return array результ SQL запроса
+ * @param string $check - GET запрос на выполненую задачу
  */
 function getCompleted($task_id, $check){
 
     $connection = DbConnectionProvider::getConnection();
-    if($check == '1') {
+    if($check === '1') {
         $sql = "UPDATE Task SET status = 1, done_at = NOW() WHERE id = ?";
         $parameters = [$task_id];
 
     } else {
-        $sql = "UPDATE Task SET status = 0, done_at = NOW() WHERE id = ?";
+        $sql = "UPDATE Task SET status = 0, done_at = NULL() WHERE id = ?";
         $parameters = [$task_id];
     }
 
@@ -341,6 +348,15 @@ function getCompleted($task_id, $check){
 
 }
 
+
+/**
+ * SQL-запрос для поиска задачи
+ *
+ * @param $search - задача, которую ищут
+ *
+ * @return array результ SQL запроса
+ *
+ */
 function searchTask ($search){
 
     $connection = DbConnectionProvider::getConnection();

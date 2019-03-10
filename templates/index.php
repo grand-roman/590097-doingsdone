@@ -46,7 +46,7 @@
                                 <tr class="tasks__item task task--completed">
                                     <td class="task__select">
                                         <label class="checkbox task__checkbox">
-                                            <input class="checkbox__input visually-hidden" type="checkbox" <?php if (isset($task['id'])): ?> value="<?=$task['id'];?><?php endif; ?>">
+                                            <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" <?php if (isset($task['id'])): ?> value="<?=$task['id'];?><?php endif; ?>" checked>
                                             <span class="checkbox__text"><?php if (isset($task["name_task"])): ?> <?= strip_tags($task["name_task"]);  ?> <?php endif; ?></span>
                                         </label>
                                     </td>
